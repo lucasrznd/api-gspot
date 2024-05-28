@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @Table(name = "tb_spot")
-public class Spot implements Serializable {
+public class SpotModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -25,12 +25,12 @@ public class Spot implements Serializable {
     @NotBlank(message = "Company can't be blank.")
     @ManyToOne
     @JoinColumn(name = "company_id")
-    private Company company;
+    private CompanyModel company;
 
     @NotBlank(message = "Announcer can't be blank.")
     @ManyToOne
     @JoinColumn(name = "announcer_id")
-    private Announcer announcer;
+    private AnnouncerModel announcer;
 
     @NotBlank(message = "Date can't be blank.")
     @Column(name = "date")
