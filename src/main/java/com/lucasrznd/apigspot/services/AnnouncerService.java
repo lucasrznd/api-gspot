@@ -31,6 +31,7 @@ public class AnnouncerService {
                 .map(announcerFound -> {
                     announcerFound.setName(announcerDTO.name());
                     announcerFound.setPhoneNumber(announcerDTO.phoneNumber());
+                    announcerFound.setUrlImage(announcerDTO.urlImage());
                     return announcerMapper.toDTO(announcerRepository.save(announcerFound));
                 }).get();
     }
