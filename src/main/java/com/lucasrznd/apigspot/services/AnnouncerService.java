@@ -22,6 +22,10 @@ public class AnnouncerService {
         return announcerRepository.findAll().stream().map(announcerMapper::toDTO).toList();
     }
 
+    public Long countAnnouncers() {
+         return announcerRepository.count();
+    }
+
     public AnnouncerDTO insert(AnnouncerDTO announcerDTO) {
         return announcerMapper.toDTO(announcerRepository.save(announcerMapper.toModel(announcerDTO)));
     }

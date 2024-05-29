@@ -24,6 +24,12 @@ public class AnnouncerController {
         return announcerService.selectAll();
     }
 
+    @GetMapping("/countAnnouncers")
+    @ResponseStatus(HttpStatus.OK)
+    public Long countAnnouncers() {
+        return announcerService.countAnnouncers();
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AnnouncerDTO insert(@RequestBody AnnouncerDTO announcerDTO) {
