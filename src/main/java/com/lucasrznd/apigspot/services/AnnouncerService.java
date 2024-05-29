@@ -44,4 +44,8 @@ public class AnnouncerService {
         announcerRepository.deleteById(id);
     }
 
+    private AnnouncerDTO findByNameAndPhoneNumber(String name, String phoneNumber) {
+        return announcerMapper.toDTO(announcerRepository.findByNameAndPhoneNumber(name, phoneNumber));
+    }
+
 }
