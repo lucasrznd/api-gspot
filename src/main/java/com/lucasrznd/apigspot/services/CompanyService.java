@@ -29,7 +29,7 @@ public class CompanyService {
     }
 
     public CompanyDTO insert(CompanyDTO companyDTO) {
-        CompanyDTO companyFounded = companyMapper.toDTO(companyRepository.findByName(companyDTO.name()));
+        CompanyDTO companyFounded = companyMapper.toDTO(companyRepository.findByName(companyDTO.name().trim().toLowerCase()));
 
         if (companyFounded != null) {
             throw new DuplicateCompanyException("Company already exists.");
