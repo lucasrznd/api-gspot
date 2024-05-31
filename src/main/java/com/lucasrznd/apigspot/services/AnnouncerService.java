@@ -29,7 +29,7 @@ public class AnnouncerService {
     }
 
     public AnnouncerDTO insert(AnnouncerDTO announcerDTO) {
-        AnnouncerDTO announcerFound = findByNameAndPhoneNumber(announcerDTO.name(), announcerDTO.phoneNumber());
+        AnnouncerDTO announcerFound = findByNameAndPhoneNumber(announcerDTO.name(), announcerDTO.phoneNumber().trim().toLowerCase());
 
         if (announcerFound != null) {
             throw new DuplicateAnnouncerException("Announcer already exists.");
