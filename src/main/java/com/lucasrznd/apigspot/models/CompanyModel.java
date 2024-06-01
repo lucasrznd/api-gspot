@@ -8,6 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "tb_company")
+@Table(name = "tb_empresa")
 public class CompanyModel extends GenericModel {
 }
