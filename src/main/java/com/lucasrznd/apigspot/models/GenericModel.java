@@ -14,7 +14,7 @@ import java.io.Serializable;
 public abstract class GenericModel implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty(message = "Name can't be empty.")

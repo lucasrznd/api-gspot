@@ -16,7 +16,7 @@ import java.time.LocalDate;
 public class SpotModel implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotBlank(message = "Name can't be blank.")
