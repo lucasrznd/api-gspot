@@ -9,7 +9,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/company")
-@CrossOrigin(origins = "${frontend.client.url}")
 public class CompanyController {
 
     private CompanyService companyService;

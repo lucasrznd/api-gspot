@@ -9,7 +9,6 @@ import java.util.List;
 
 @RestController()
 @RequestMapping("/announcer")
-@CrossOrigin(origins = "${frontend.client.url}")
 public class AnnouncerController {
 
     private AnnouncerService announcerService;
