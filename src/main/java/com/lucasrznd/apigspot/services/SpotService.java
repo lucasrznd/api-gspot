@@ -38,6 +38,15 @@ public class SpotService {
         return spotRepository.getAmountRaised();
     }
 
+    public List<SpotDTO> getLatestSpots() {
+        return spotRepository.getLatestSpots().stream().map(spotMapper::toDTO).toList();
+    }
+
+    public List<SpotDTO> getByDateRangeAnnouncerAndCompany(LocalDate initialDate, LocalDate finalDate, String companyName, String announcerName) {
+        return spotRepository.getByDateRangeAnnouncerAndCompany(initialDate, finalDate, companyName, announcerName)
+                .stream().map(spotMapper::toDTO).toList();
+    }
+
     public BigDecimal calculateSpotPrice(Double duration, boolean isActiveContract) {
         if (Objects.nonNull(duration)) {
             for (SpotPrice spotPrice : spotPrices) {
