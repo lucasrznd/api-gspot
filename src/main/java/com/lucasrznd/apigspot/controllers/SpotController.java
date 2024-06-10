@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -40,6 +41,19 @@ public class SpotController {
     @ResponseStatus(HttpStatus.OK)
     public BigDecimal calculateSpotPrice(@RequestParam Double duration, @RequestParam boolean activeContract) {
         return spotService.calculateSpotPrice(duration, activeContract);
+    }
+
+    @GetMapping("/latest-spots")
+    @ResponseStatus(HttpStatus.OK)
+    public List<SpotDTO> getLatestSpots() {
+        return spotService.getLatestSpots();
+    }
+
+    @GetMapping("/search-spot")
+    @ResponseStatus(HttpStatus.OK)
+    public List<SpotDTO> searchSpot(@RequestParam LocalDate initialDate, @RequestParam LocalDate finalDate,
+                                    @RequestParam String companyName, @RequestParam String announcerName) {
+        return spotService.getByDateRangeAnnouncerAndCompany(initialDate, finalDate, companyName, announcerName);
     }
 
     @PostMapping
