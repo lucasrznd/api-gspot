@@ -52,7 +52,7 @@ public class SpotController {
     @GetMapping("/search")
     @ResponseStatus(HttpStatus.OK)
     public List<SpotDTO> searchSpot(@RequestParam LocalDate initialDate, @RequestParam LocalDate finalDate,
-                                    @RequestParam String companyName, @RequestParam String announcerName) {
+                                    @RequestParam(required = false) String companyName, @RequestParam(required = false) String announcerName) {
         return spotService.getByDateRangeAnnouncerAndCompany(initialDate, finalDate, companyName, announcerName);
     }
 
