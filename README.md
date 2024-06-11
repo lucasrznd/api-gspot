@@ -10,6 +10,7 @@
 <p align="center">
  <a href="#description">Description</a> • 
  <a href="#features">Features</a> • 
+  <a href="#routes">API Endpoints</a> • 
  <a href="#installation">Installation</a> •
  <a href="#contribution">Contribution</a> 
 </p>
@@ -23,6 +24,211 @@ The **SPOT Management System API** is a backend service developed in Java with S
 - **Announcer Registration**: Endpoints to add and manage announcers who make the recordings.
 - **Company Registration**: Endpoints to add and manage companies associated with the recordings.
 - **Spot Registration**: Endpoints to add and manage spots, specifying the title, announcer, and associated company.
+
+<h2 id="routes">📍 API Endpoints</h2>
+
+### Spot
+| route               | description                                          
+|----------------------|-----------------------------------------------------
+| <kbd>GET /spot</kbd>     | retrieves all [spots](#get-spots)
+| <kbd>GET /count</kbd>     | count total existing [spots](#count-spots)
+| <kbd>GET /amount-raised</kbd>     | retrieves [amount raised](#amount-raised) from spots
+| <kbd>GET /calculate-price</kbd>     | calculates spot price
+| <kbd>POST /spot</kbd>     | create a new [spot](#post-spot)
+| <kbd>PUT /spot/id</kbd>     | update existing spot
+| <kbd>DELETE /spot/id</kbd>     | delete spot by id
+
+<h3 id="get-spots">GET /spot</h3>
+
+**RESPONSE**
+```json
+{
+  "id": 1,
+  "title": "SUMMER PROMOTIONS",
+  "company": {
+    "id": 2,
+    "name": "Cloth Store",
+    "phoneNumber": "40988888888",
+    "urlImage": ""
+  },
+ "announcer": {
+    "id": 1,
+    "name": "Lucas Rezende",
+    "phoneNumber": "40999999999",
+    "urlImage": ""
+  },
+ "date": "2024-06-11",
+ "duration": 0.41,
+ "activeContract": true,
+ "price": 20.00
+}
+```
+
+<h3 id="count-spots">GET /count</h3>
+
+**RESPONSE**
+```json
+1
+```
+
+<h3 id="amount-raised">GET /amount-raised</h3>
+
+**RESPONSE**
+```json
+20.00
+```
+
+<h3 id="post-spot">POST /spot</h3>
+
+**REQUEST**
+```json
+{
+  "id": 1,
+  "title": "SUMMER PROMOTIONS",
+  "company": {
+    "id": 2,
+    "name": "Cloth Store",
+    "phoneNumber": "40988888888",
+    "urlImage": ""
+  },
+ "announcer": {
+    "id": 1,
+    "name": "Lucas Rezende",
+    "phoneNumber": "40999999999",
+    "urlImage": ""
+  },
+ "duration": 0.41,
+ "activeContract": true,
+}
+```
+
+**RESPONSE**
+```json
+{
+  "id": 1,
+  "title": "SUMMER PROMOTIONS",
+  "company": {
+    "id": 2,
+    "name": "Cloth Store",
+    "phoneNumber": "40988888888",
+    "urlImage": ""
+  },
+ "announcer": {
+    "id": 1,
+    "name": "Lucas Rezende",
+    "phoneNumber": "40999999999",
+    "urlImage": ""
+  },
+ "date": "2024-06-11",
+ "duration": 0.41,
+ "activeContract": true,
+ "price": 20.00
+}
+```
+
+### Company
+| route               | description                                          
+|----------------------|-----------------------------------------------------
+| <kbd>GET /company</kbd>     | retrieves all [companies](#get-companies)
+| <kbd>GET /count</kbd>     | count total existing companies
+| <kbd>POST /company</kbd>     | create a new [company](#post-company)
+| <kbd>PUT /company/id</kbd>     | update existing company
+| <kbd>DELETE /company/id</kbd>     | delete company by id
+
+<h3 id="get-companies">GET /company</h3>
+
+**RESPONSE**
+```json
+{
+  "id": 1,
+  "name": "Lucas Company",
+  "phoneNumber": "40999999999",
+  "urlImage": ""
+},
+{
+  "id": 2,
+  "name": "Cloth Store",
+  "phoneNumber": "40988888888",
+  "urlImage": ""
+}
+```
+
+<h3 id="count-companies">GET /count</h3>
+
+**RESPONSE**
+```json
+2
+```
+
+<h3 id="post-company">POST /company</h3>
+
+**REQUEST**
+```json
+{
+  "name": "Lucas Company",
+  "phoneNumber": "40999999999",
+  "urlImage": ""
+}
+```
+
+**RESPONSE**
+```json
+{
+  "id": 1,
+  "name": "Lucas Company",
+  "phoneNumber": "40999999999",
+  "urlImage": ""
+}
+```
+
+### Announcer
+| route               | description                                          
+|----------------------|-----------------------------------------------------
+| <kbd>GET /announcer</kbd>     | retrieves all [announcers](#get-announcers)
+| <kbd>GET /count</kbd>     | count total existing [announcers](#count-announcers)
+| <kbd>POST /announcer</kbd>     | create a new [announcer](#post-announcer)
+| <kbd>PUT /announcer/id</kbd>     | update existing announcer
+| <kbd>DELETE /announcer/id</kbd>     | delete announcer by id
+
+<h3 id="get-announcers">GET /announcer</h3>
+
+**RESPONSE**
+```json
+{
+  "id": 1,
+  "name": "Lucas Rezende",
+  "phoneNumber": "40999999999",
+  "urlImage": ""
+}
+```
+
+<h3 id="count-announcers">GET /count</h3>
+
+**RESPONSE**
+```json
+1
+```
+
+<h3 id="post-announcer">POST /announcer</h3>
+
+**REQUEST**
+```json
+{
+  "name": "Lucas Rezende",
+  "phoneNumber": "40999999999",
+  "urlImage": ""
+}
+```
+
+**RESPONSE**
+```json
+{
+  "id": 1,
+  "name": "Lucas Rezende",
+  "phoneNumber": "40999999999",
+  "urlImage": ""
+}
+```
 
 ### Technologies Used
 
