@@ -43,13 +43,13 @@ public class SpotController {
         return spotService.calculateSpotPrice(duration, activeContract);
     }
 
-    @GetMapping("/latest-spots")
+    @GetMapping("/latest")
     @ResponseStatus(HttpStatus.OK)
     public List<SpotDTO> getLatestSpots() {
         return spotService.getLatestSpots();
     }
 
-    @GetMapping("/search-spot")
+    @GetMapping("/search")
     @ResponseStatus(HttpStatus.OK)
     public List<SpotDTO> searchSpot(@RequestParam LocalDate initialDate, @RequestParam LocalDate finalDate,
                                     @RequestParam String companyName, @RequestParam String announcerName) {
