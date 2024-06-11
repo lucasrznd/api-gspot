@@ -13,7 +13,7 @@ public interface SpotRepository extends JpaRepository<SpotModel, Long> {
     @Query("SELECT SUM(s.price) FROM SpotModel s")
     BigDecimal getAmountRaised();
 
-    @Query("SELECT s FROM SpotModel s ORDER BY s.id DESC LIMIT 5")
+    @Query("SELECT s FROM SpotModel s ORDER BY s.date DESC LIMIT 5")
     List<SpotModel> getLatestSpots();
 
     @Query(value = "SELECT s FROM SpotModel s "
