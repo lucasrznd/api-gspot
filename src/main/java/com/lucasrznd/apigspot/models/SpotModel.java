@@ -33,7 +33,7 @@ public class SpotModel implements Serializable {
     @JoinColumn(name = "announcer_id")
     private AnnouncerModel announcer;
 
-    @Column(name = "date")
+    @Column(name = "spot_date")
     private LocalDate date;
 
     @NotNull(message = "Duration can't be blank.")
