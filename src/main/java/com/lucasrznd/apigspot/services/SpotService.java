@@ -65,7 +65,7 @@ public class SpotService {
     }
 
     public SpotDTO insert(SpotDTO spotDTO) {
-        SpotModel spotModel = new SpotModel();
+        SpotModel spotModel;
         spotModel = spotMapper.toModel(spotDTO);
 
         if (spotDTO.date() == null) {
