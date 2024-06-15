@@ -38,6 +38,10 @@ public class SpotService {
         return spotRepository.getAmountRaised();
     }
 
+    public BigDecimal getAmountRaisedMonth() {
+        return spotRepository.getAmountRaisedMonth();
+    }
+
     public List<SpotDTO> getLatestSpots() {
         return spotRepository.getLatestSpots().stream().map(spotMapper::toDTO).toList();
     }

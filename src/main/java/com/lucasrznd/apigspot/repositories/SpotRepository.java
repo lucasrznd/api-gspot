@@ -13,6 +13,9 @@ public interface SpotRepository extends JpaRepository<SpotModel, Long> {
     @Query("SELECT SUM(s.price) FROM SpotModel s")
     BigDecimal getAmountRaised();
 
+    @Query(nativeQuery = true, value = "SELECT * FROM amount_raised_month")
+    BigDecimal getAmountRaisedMonth();
+
     @Query("SELECT s FROM SpotModel s ORDER BY s.date DESC LIMIT 5")
     List<SpotModel> getLatestSpots();
 

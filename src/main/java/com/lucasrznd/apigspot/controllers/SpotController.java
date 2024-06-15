@@ -37,6 +37,12 @@ public class SpotController {
         return spotService.getAmountRaised();
     }
 
+    @GetMapping("/amount-raised-month")
+    @ResponseStatus(HttpStatus.OK)
+    public BigDecimal getAmountRaisedMonth() {
+        return spotService.getAmountRaisedMonth();
+    }
+
     @GetMapping("/calculate-price")
     @ResponseStatus(HttpStatus.OK)
     public BigDecimal calculateSpotPrice(@RequestParam Double duration, @RequestParam boolean activeContract) {
