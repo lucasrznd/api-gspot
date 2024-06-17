@@ -1,6 +1,6 @@
 package com.lucasrznd.apigspot.controllers;
 
-import com.lucasrznd.apigspot.models.TopMonthlyAnnouncer;
+import com.lucasrznd.apigspot.dtos.TopMonthlyAnnouncerDTO;
 import com.lucasrznd.apigspot.services.TopMonthlyAnnouncerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,7 @@ public class TopMonthlyAnnouncerController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<TopMonthlyAnnouncer> findTopMonthlyAnnouncers() {
+    public List<TopMonthlyAnnouncerDTO> findTopMonthlyAnnouncers() {
         return topMonthlyAnnouncerService.findTopMonthlyAnnouncers();
     }
 
