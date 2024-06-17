@@ -1,6 +1,7 @@
 package com.lucasrznd.apigspot.services;
 
-import com.lucasrznd.apigspot.models.TopMonthlyCompany;
+import com.lucasrznd.apigspot.dtos.TopMonthlyCompanyDTO;
+import com.lucasrznd.apigspot.dtos.mappers.TopMonthlyCompanyMapper;
 import com.lucasrznd.apigspot.repositories.TopMonthlyCompanyRepository;
 import org.springframework.stereotype.Service;
 
@@ -10,13 +11,16 @@ import java.util.List;
 public class TopMonthlyCompanyService {
 
     private final TopMonthlyCompanyRepository topMonthlyCompanyRepository;
+    private final TopMonthlyCompanyMapper mapper;
 
-    public TopMonthlyCompanyService(TopMonthlyCompanyRepository topMonthlyCompanyRepository) {
+    public TopMonthlyCompanyService(TopMonthlyCompanyRepository topMonthlyCompanyRepository, TopMonthlyCompanyMapper mapper) {
         this.topMonthlyCompanyRepository = topMonthlyCompanyRepository;
+        this.mapper = mapper;
     }
 
-    public List<TopMonthlyCompany> findTopMonthlyCompanies() {
-        return topMonthlyCompanyRepository.findTopMonthlyCompanies();
+    public List<TopMonthlyCompanyDTO> findTopMonthlyCompanies() {
+        return topMonthlyCompanyRepository.findTopMonthlyCompanies()
+                .stream().map(mapper::toDTO).toList();
     }
 
 }
