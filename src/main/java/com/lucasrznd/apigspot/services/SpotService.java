@@ -90,7 +90,7 @@ public class SpotService {
     }
 
     public void delete(Long id) {
-        spotRepository.delete(spotRepository.findById(id).orElseThrow(() -> new SpotNotFoundException("spot not found")));
+        spotRepository.delete(spotRepository.findById(id).orElseThrow(() -> new SpotNotFoundException("Spot not found")));
     }
 
 }
