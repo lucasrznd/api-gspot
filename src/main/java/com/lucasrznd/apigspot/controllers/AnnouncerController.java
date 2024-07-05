@@ -2,6 +2,7 @@ package com.lucasrznd.apigspot.controllers;
 
 import com.lucasrznd.apigspot.dtos.AnnouncerDTO;
 import com.lucasrznd.apigspot.services.AnnouncerService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class AnnouncerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AnnouncerDTO insert(@RequestBody AnnouncerDTO announcerDTO) {
+    public AnnouncerDTO insert(@Valid @RequestBody AnnouncerDTO announcerDTO) {
         return announcerService.insert(announcerDTO);
     }
 
