@@ -1,12 +1,14 @@
 package com.lucasrznd.apigspot.models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -23,11 +25,14 @@ public abstract class GenericModel implements Serializable {
 
     @NotEmpty(message = "Name can't be empty.")
     @NotBlank(message = "Name can't be blank.")
+    @Column(name = "name", unique = true)
     private String name;
 
-    @Column(name = "phone_number")
+    @NotNull
+    @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
+    @NotNull
     @Column(name = "url_image", columnDefinition = "TEXT")
     private String urlImage;
 
