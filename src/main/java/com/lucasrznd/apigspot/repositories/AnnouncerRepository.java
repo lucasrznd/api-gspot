@@ -2,11 +2,13 @@ package com.lucasrznd.apigspot.repositories;
 
 import com.lucasrznd.apigspot.models.AnnouncerModel;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+
+import java.util.Optional;
 
 public interface AnnouncerRepository extends JpaRepository<AnnouncerModel, Long> {
 
-    @Query("SELECT a FROM AnnouncerModel a WHERE a.name = ?1 AND a.phoneNumber = ?2")
-    AnnouncerModel findByNameAndPhoneNumber(String name, String phoneNumber);
+    Optional<AnnouncerModel> findByName(String name);
+
+    Optional<AnnouncerModel> findByPhoneNumber(String phoneNumber);
 
 }
