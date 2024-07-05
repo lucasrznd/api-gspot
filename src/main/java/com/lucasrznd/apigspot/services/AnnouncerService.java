@@ -3,11 +3,13 @@ package com.lucasrznd.apigspot.services;
 import com.lucasrznd.apigspot.dtos.AnnouncerDTO;
 import com.lucasrznd.apigspot.dtos.mappers.AnnouncerMapper;
 import com.lucasrznd.apigspot.exceptions.announcer.AnnouncerNotFoundException;
-import com.lucasrznd.apigspot.exceptions.announcer.DuplicateAnnouncerException;
+import com.lucasrznd.apigspot.exceptions.common.NameAlreadyExistsException;
+import com.lucasrznd.apigspot.exceptions.common.PhoneNumberAlreadyExistsException;
 import com.lucasrznd.apigspot.repositories.AnnouncerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AnnouncerService {
@@ -29,11 +31,8 @@ public class AnnouncerService {
     }
 
     public AnnouncerDTO insert(AnnouncerDTO announcerDTO) {
-        AnnouncerDTO announcerFound = findByNameAndPhoneNumber(announcerDTO.name(), announcerDTO.phoneNumber().trim().toLowerCase());
-
-        if (announcerFound != null) {
-            throw new DuplicateAnnouncerException("Announcer already exists.");
-        }
+        checkIfNameAlreadyExists(announcerDTO.name());
+        checkIfPhoneNumberAlreadyExists(announcerDTO.phoneNumber());
 
         return announcerMapper.toDTO(announcerRepository.save(announcerMapper.toModel(announcerDTO)));
     }
@@ -52,8 +51,32 @@ public class AnnouncerService {
         announcerRepository.delete(announcerRepository.findById(id).orElseThrow(() -> new AnnouncerNotFoundException("Announcer not found.")));
     }
 
-    private AnnouncerDTO findByNameAndPhoneNumber(String name, String phoneNumber) {
-        return announcerMapper.toDTO(announcerRepository.findByNameAndPhoneNumber(name, phoneNumber));
+    private void checkIfNameAlreadyExists(String name) {
+        Optional<AnnouncerDTO> announcerFounded = findByName(name);
+
+        if (announcerFounded.isPresent()) {
+            throw new NameAlreadyExistsException("Name already exists.");
+        }
+    }
+
+    private void checkIfPhoneNumberAlreadyExists(String phoneNumber) {
+        Optional<AnnouncerDTO> announcerFounded = findByPhoneNumber(phoneNumber);
+
+        if (announcerFounded.isPresent()) {
+            throw new PhoneNumberAlreadyExistsException("Phone Number already exists.");
+        }
+    }
+
+    private Optional<AnnouncerDTO> findByName(String name) {
+        return announcerRepository.findByName(name).isPresent()
+                ? Optional.of(announcerMapper.toDTO(announcerRepository.findByName(name).get()))
+                : Optional.empty();
+    }
+
+    private Optional<AnnouncerDTO> findByPhoneNumber(String phoneNumber) {
+        return announcerRepository.findByPhoneNumber(phoneNumber).isPresent()
+                ? Optional.of(announcerMapper.toDTO(announcerRepository.findByPhoneNumber(phoneNumber).get()))
+                : Optional.empty();
     }
 
 }
