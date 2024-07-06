@@ -67,13 +67,13 @@ public class AnnouncerService {
         }
     }
 
-    private Optional<AnnouncerDTO> findByName(String name) {
+    public Optional<AnnouncerDTO> findByName(String name) {
         return announcerRepository.findByName(name).isPresent()
                 ? Optional.of(announcerMapper.toDTO(announcerRepository.findByName(name).get()))
                 : Optional.empty();
     }
 
-    private Optional<AnnouncerDTO> findByPhoneNumber(String phoneNumber) {
+    public Optional<AnnouncerDTO> findByPhoneNumber(String phoneNumber) {
         return announcerRepository.findByPhoneNumber(phoneNumber).isPresent()
                 ? Optional.of(announcerMapper.toDTO(announcerRepository.findByPhoneNumber(phoneNumber).get()))
                 : Optional.empty();
