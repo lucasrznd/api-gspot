@@ -7,6 +7,8 @@ public class AnnouncerConstants {
 
     public static final AnnouncerModel ANNOUNCER = new AnnouncerModel(null, "Lucas Rezende", "43999999999", "");
     public static final AnnouncerDTO ANNOUNCER_DTO = new AnnouncerDTO(null, "Lucas Rezende", "43999999999", "");
+    public static final AnnouncerDTO INVALID_ANNOUNCER_DTO = new AnnouncerDTO(null, "", "", "");
+    public static final AnnouncerDTO NULL_ANNOUNCER_DTO = new AnnouncerDTO(null, null, null, null);
 
     public static final AnnouncerModel JOHN_DOE = new AnnouncerModel(2L, "John Doe", "43988888888", "");
 
