@@ -51,7 +51,7 @@ public class AnnouncerService {
         announcerRepository.delete(announcerRepository.findById(id).orElseThrow(() -> new AnnouncerNotFoundException("Announcer not found.")));
     }
 
-    private void checkIfNameAlreadyExists(String name) {
+    public void checkIfNameAlreadyExists(String name) {
         Optional<AnnouncerDTO> announcerFounded = findByName(name);
 
         if (announcerFounded.isPresent()) {
@@ -59,7 +59,7 @@ public class AnnouncerService {
         }
     }
 
-    private void checkIfPhoneNumberAlreadyExists(String phoneNumber) {
+    public void checkIfPhoneNumberAlreadyExists(String phoneNumber) {
         Optional<AnnouncerDTO> announcerFounded = findByPhoneNumber(phoneNumber);
 
         if (announcerFounded.isPresent()) {
