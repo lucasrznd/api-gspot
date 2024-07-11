@@ -17,8 +17,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static com.lucasrznd.apigspot.common.AnnouncerConstants.*;
-import static org.assertj.core.api.Assertions.*;
+import static com.lucasrznd.apigspot.common.AnnouncerConstants.ANNOUNCER;
+import static com.lucasrznd.apigspot.common.AnnouncerConstants.ANNOUNCER_DTO;
+import static com.lucasrznd.apigspot.common.AnnouncerConstants.INVALID_ANNOUNCER_DTO;
+import static com.lucasrznd.apigspot.common.AnnouncerConstants.JOHN_DOE;
+import static com.lucasrznd.apigspot.common.AnnouncerConstants.JOHN_DOE_DTO;
+import static com.lucasrznd.apigspot.common.AnnouncerConstants.NULL_ANNOUNCER_DTO;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
