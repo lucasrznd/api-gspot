@@ -2,12 +2,14 @@ package com.lucasrznd.apigspot.services;
 
 import com.lucasrznd.apigspot.dtos.CompanyDTO;
 import com.lucasrznd.apigspot.dtos.mappers.CompanyMapper;
+import com.lucasrznd.apigspot.exceptions.common.NameAlreadyExistsException;
+import com.lucasrznd.apigspot.exceptions.common.PhoneNumberAlreadyExistsException;
 import com.lucasrznd.apigspot.exceptions.company.CompanyNotFoundException;
-import com.lucasrznd.apigspot.exceptions.company.DuplicateCompanyException;
 import com.lucasrznd.apigspot.repositories.CompanyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CompanyService {
@@ -29,11 +31,8 @@ public class CompanyService {
     }
 
     public CompanyDTO insert(CompanyDTO companyDTO) {
-        CompanyDTO companyFounded = companyMapper.toDTO(companyRepository.findByName(companyDTO.name().trim().toLowerCase()));
-
-        if (companyFounded != null) {
-            throw new DuplicateCompanyException("Company already exists.");
-        }
+        checkIfNameAlreadyExists(companyDTO.name());
+        checkIfPhoneNumberAlreadyExists(companyDTO.phoneNumber());
 
         return companyMapper.toDTO(companyRepository.save(companyMapper.toModel(companyDTO)));
     }
@@ -50,6 +49,34 @@ public class CompanyService {
 
     public void delete(Long id) {
         companyRepository.delete(companyRepository.findById(id).orElseThrow(() -> new CompanyNotFoundException("Company not found.")));
+    }
+
+    public void checkIfNameAlreadyExists(String name) {
+        Optional<CompanyDTO> companyFounded = findByName(name);
+
+        if (companyFounded.isPresent()) {
+            throw new NameAlreadyExistsException("Name already exists.");
+        }
+    }
+
+    public void checkIfPhoneNumberAlreadyExists(String phoneNumber) {
+        Optional<CompanyDTO> companyFounded = findByPhoneNumber(phoneNumber);
+
+        if (companyFounded.isPresent()) {
+            throw new PhoneNumberAlreadyExistsException("Phone Number already exists.");
+        }
+    }
+
+    public Optional<CompanyDTO> findByName(String name) {
+        return companyRepository.findByName(name).isPresent()
+                ? Optional.of(companyMapper.toDTO(companyRepository.findByName(name).get()))
+                : Optional.empty();
+    }
+
+    public Optional<CompanyDTO> findByPhoneNumber(String phoneNumber) {
+        return companyRepository.findByPhoneNumber(phoneNumber).isPresent()
+                ? Optional.of(companyMapper.toDTO(companyRepository.findByPhoneNumber(phoneNumber).get()))
+                : Optional.empty();
     }
 
 }
