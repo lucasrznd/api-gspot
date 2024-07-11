@@ -14,7 +14,8 @@ import java.util.Optional;
 
 import static com.lucasrznd.apigspot.common.AnnouncerConstants.ANNOUNCER;
 import static com.lucasrznd.apigspot.common.AnnouncerConstants.JOHN_DOE;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DataJpaTest
 @ActiveProfiles("test")
@@ -120,6 +121,21 @@ class AnnouncerRepositoryTest {
         List<AnnouncerModel> response = announcerRepository.findAll();
 
         assertThat(response).isEmpty();
+    }
+
+    @Test
+    public void countAnnouncers_ReturnsAnnouncersQuantity() {
+        testEntityManager.persistAndFlush(ANNOUNCER);
+        Long announcersQuantity = announcerRepository.count();
+
+        assertThat(announcersQuantity).isEqualTo(1L);
+    }
+
+    @Test
+    public void countAnnouncers_ReturnsEmpty() {
+        Long announcersQuantity = announcerRepository.count();
+
+        assertThat(announcersQuantity).isEqualTo(0L);
     }
 
 }

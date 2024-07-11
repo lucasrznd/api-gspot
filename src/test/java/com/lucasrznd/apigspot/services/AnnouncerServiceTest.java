@@ -60,6 +60,41 @@ public class AnnouncerServiceTest {
     }
 
     @Test
+    public void countAnnouncers_ReturnsAnnouncersQuantity() {
+        when(announcerRepository.count()).thenReturn(1L);
+
+        Long announcersQuantity = announcerService.countAnnouncers();
+
+        assertThat(announcersQuantity).isEqualTo(1L);
+    }
+
+    @Test
+    public void countAnnouncers_ReturnsEmpty() {
+        Long announcersQuantity = announcerService.countAnnouncers();
+
+        assertThat(announcersQuantity).isEqualTo(0L);
+    }
+
+    @Test
+    public void updateAnnouncer_WithExistingId_ReturnsUpdatedAnnouncer() {
+        when(announcerRepository.findById(2L)).thenReturn(Optional.of(JOHN_DOE));
+        when(announcerRepository.save(JOHN_DOE)).thenReturn(JOHN_DOE);
+        when(announcerMapper.toDTO(JOHN_DOE)).thenReturn(JOHN_DOE_DTO);
+
+        AnnouncerDTO updatedAnnouncer = announcerService.update(2L, JOHN_DOE_DTO);
+
+        assertThat(updatedAnnouncer).isNotNull();
+        assertThat(updatedAnnouncer).isEqualTo(JOHN_DOE_DTO);
+    }
+
+    @Test
+    public void updateAnnouncer_WithUnexistingId_ThrowsException() {
+        when(announcerRepository.findById(2L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> announcerService.update(2L, JOHN_DOE_DTO)).isInstanceOf(AnnouncerNotFoundException.class);
+    }
+
+    @Test
     public void getAnnouncer_ByExistingName_ReturnsAnnouncer() {
         when(announcerRepository.findByName(ANNOUNCER_DTO.name())).thenReturn(Optional.of(ANNOUNCER));
         when(announcerMapper.toDTO(ANNOUNCER)).thenReturn(ANNOUNCER_DTO);

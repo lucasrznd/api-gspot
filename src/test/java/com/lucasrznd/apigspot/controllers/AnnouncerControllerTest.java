@@ -2,6 +2,7 @@ package com.lucasrznd.apigspot.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lucasrznd.apigspot.dtos.AnnouncerDTO;
+import com.lucasrznd.apigspot.exceptions.announcer.AnnouncerNotFoundException;
 import com.lucasrznd.apigspot.exceptions.common.NameAlreadyExistsException;
 import com.lucasrznd.apigspot.exceptions.common.PhoneNumberAlreadyExistsException;
 import com.lucasrznd.apigspot.services.AnnouncerService;
@@ -71,6 +72,31 @@ public class AnnouncerControllerTest {
 
         mockMvc.perform(post("/announcer").content(objectMapper.writeValueAsString(ANNOUNCER_DTO))
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isConflict());
+    }
+
+    @Test
+    public void countAnnouncers_ReturnsAnnouncersQuantity() throws Exception {
+        when(announcerService.countAnnouncers()).thenReturn(1L);
+
+        mockMvc.perform(get("/announcer/countAnnouncers"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$").value(1L));
+    }
+
+    @Test
+    public void updateAnnouncer_WithExistingId_ReturnsUpdatedAnnouncer() throws Exception {
+        when(announcerService.update(1L, ANNOUNCER_DTO)).thenReturn(ANNOUNCER_DTO);
+
+        mockMvc.perform(put("/announcer/" + 1).content(objectMapper.writeValueAsString(ANNOUNCER_DTO)).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.name").value(ANNOUNCER_DTO.name()))
+                .andExpect(jsonPath("$.phoneNumber").value(ANNOUNCER_DTO.phoneNumber()));
+    }
+
+    @Test
+    public void updateAnnouncer_WithUnexistingId_ReturnsNotFound() throws Exception {
+        doThrow(AnnouncerNotFoundException.class).when(announcerService).update(1L, ANNOUNCER_DTO);
+
+        mockMvc.perform(put("/announcer/" + 1).content(objectMapper.writeValueAsString(ANNOUNCER_DTO)).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound()).andExpect(jsonPath("$").doesNotExist());
     }
 
     @Test
