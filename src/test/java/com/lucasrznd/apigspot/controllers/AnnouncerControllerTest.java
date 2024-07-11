@@ -9,13 +9,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.lucasrznd.apigspot.common.AnnouncerConstants.ANNOUNCERS_DTO_LIST;
 import static com.lucasrznd.apigspot.common.AnnouncerConstants.ANNOUNCER_DTO;
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,7 +41,8 @@ public class AnnouncerControllerTest {
 
         mockMvc.perform(post("/announcer").content(objectMapper.writeValueAsString(ANNOUNCER_DTO)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$").value(ANNOUNCER_DTO));
+                .andExpect(jsonPath("$.name").value(ANNOUNCER_DTO.name()))
+                .andExpect(jsonPath("$.phoneNumber").value(ANNOUNCER_DTO.phoneNumber()));
     }
 
     @Test
@@ -66,6 +71,30 @@ public class AnnouncerControllerTest {
 
         mockMvc.perform(post("/announcer").content(objectMapper.writeValueAsString(ANNOUNCER_DTO))
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isConflict());
+    }
+
+    @Test
+    public void listAnnouncers_ReturnsAnnouncers() throws Exception {
+        when(announcerService.selectAll()).thenReturn(ANNOUNCERS_DTO_LIST);
+
+        mockMvc.perform(get("/announcer"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)));
+    }
+
+    @Test
+    public void deleteAnnouncer_WithExistingId_ReturnsNoContent() throws Exception {
+        mockMvc.perform(delete("/announcer/" + 1))
+                .andExpect(status().isNoContent())
+                .andExpect(jsonPath("$").doesNotExist());
+    }
+
+    @Test
+    public void deleteAnnouncer_WithUnexistingId_ReturnsNotFound() throws Exception {
+        doThrow(new EmptyResultDataAccessException(1)).when(announcerService).delete(1L);
+
+        mockMvc.perform(delete("/announcer" + 1))
+                .andExpect(status().isNotFound());
     }
 
 }
