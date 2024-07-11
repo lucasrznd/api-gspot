@@ -3,13 +3,9 @@ package com.lucasrznd.apigspot.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "tb_locutor")
