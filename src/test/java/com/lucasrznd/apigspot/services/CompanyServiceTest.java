@@ -2,7 +2,10 @@ package com.lucasrznd.apigspot.services;
 
 import com.lucasrznd.apigspot.dtos.CompanyDTO;
 import com.lucasrznd.apigspot.dtos.mappers.CompanyMapper;
+import com.lucasrznd.apigspot.exceptions.common.NameAlreadyExistsException;
+import com.lucasrznd.apigspot.exceptions.common.PhoneNumberAlreadyExistsException;
 import com.lucasrznd.apigspot.exceptions.company.CompanyNotFoundException;
+import com.lucasrznd.apigspot.models.CompanyModel;
 import com.lucasrznd.apigspot.repositories.CompanyRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,11 +13,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static com.lucasrznd.apigspot.common.CompanyConstants.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -110,7 +114,7 @@ public class CompanyServiceTest {
     }
 
     @Test
-    public void getCompany_ByExistingPhoneNumber_ThrowsException() {
+    public void getCompany_ByExistingPhoneNumber_ReturnsCompany() {
         when(companyRepository.findByPhoneNumber(COMPANY.getPhoneNumber())).thenReturn(Optional.of(COMPANY));
         when(companyMapper.toDTO(COMPANY)).thenReturn(COMPANY_DTO);
 
@@ -118,6 +122,75 @@ public class CompanyServiceTest {
 
         assertThat(sut).isNotEmpty();
         assertThat(sut.get()).isEqualTo(COMPANY_DTO);
+    }
+
+    @Test
+    public void getCompany_ByUnexistingPhoneNumber_ReturnsEmpty() {
+        when(companyRepository.findByPhoneNumber(COMPANY.getPhoneNumber())).thenReturn(Optional.empty());
+
+        Optional<CompanyDTO> sut = companyService.findByPhoneNumber(COMPANY.getPhoneNumber());
+
+        assertThat(sut).isEmpty();
+    }
+
+    @Test
+    public void checkIfCompanyExists_ByExistingName_ThrowsException() {
+        when(companyRepository.findByName(COMPANY.getName())).thenReturn(Optional.of(COMPANY));
+        when(companyMapper.toDTO(COMPANY)).thenReturn(COMPANY_DTO);
+
+        assertThatCode(() -> companyService.checkIfNameAlreadyExists(COMPANY.getName())).isInstanceOf(NameAlreadyExistsException.class);
+    }
+
+    @Test
+    public void checkIfCompanyExists_ByUnexistingName_DoesNotThrowAnyException() {
+        assertThatCode(() -> companyService.checkIfNameAlreadyExists(COMPANY.getName())).doesNotThrowAnyException();
+    }
+
+    @Test
+    public void checkIfCompanyExists_ByExistingPhoneNumber_ThrowsException() {
+        when(companyRepository.findByPhoneNumber(COMPANY.getPhoneNumber())).thenReturn(Optional.of(COMPANY));
+        when(companyMapper.toDTO(COMPANY)).thenReturn(COMPANY_DTO);
+
+        assertThatCode(() -> companyService.checkIfPhoneNumberAlreadyExists(COMPANY.getPhoneNumber())).isInstanceOf(PhoneNumberAlreadyExistsException.class);
+    }
+
+    @Test
+    public void checkIfCompanyExists_ByUnexistingPhoneNumber_ThrowsException() {
+        assertThatCode(() -> companyService.checkIfPhoneNumberAlreadyExists(COMPANY.getPhoneNumber())).doesNotThrowAnyException();
+    }
+
+    @Test
+    public void listCompanies_ReturnsAllCompanies() {
+        List<CompanyModel> companies = List.of(COMPANY);
+        when(companyRepository.findAll()).thenReturn(companies);
+        when(companyMapper.toDTO(COMPANY)).thenReturn(COMPANY_DTO);
+
+        List<CompanyDTO> sut = companyService.selectAll();
+
+        assertThat(sut).isNotEmpty();
+        assertThat(sut.size()).isEqualTo(1);
+        assertThat(sut.get(0)).isEqualTo(COMPANY_DTO);
+    }
+
+    @Test
+    public void listCompanies_ReturnsEmpty() {
+        when(companyRepository.findAll()).thenReturn(Collections.emptyList());
+
+        List<CompanyDTO> sut = companyService.selectAll();
+
+        assertThat(sut).isEmpty();
+    }
+
+    @Test
+    public void removeCompany_WithExistingId_DoesNotThrowAnyException() {
+        when(companyRepository.findById(COMPANY.getId())).thenReturn(Optional.of(COMPANY));
+
+        assertThatCode(() -> companyService.delete(COMPANY.getId())).doesNotThrowAnyException();
+    }
+
+    @Test
+    public void removeCompany_WithUnexistingId_ThrowsException() {
+        assertThatCode(() -> companyService.delete(COMPANY.getId())).isInstanceOf(CompanyNotFoundException.class);
     }
 
 }

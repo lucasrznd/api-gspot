@@ -66,7 +66,7 @@ public class CompanyRepositoryTest {
         CompanyModel company = testEntityManager.persistFlushFind(COMPANY);
         testEntityManager.detach(company);
         company.setId(null);
-        company.setName("Other Comapny");
+        company.setName("Other Company");
 
         assertThatThrownBy(() -> companyRepository.save(company)).isInstanceOf(RuntimeException.class);
     }
