@@ -21,14 +21,14 @@ public class SpotController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<SpotDTO> selectAll() {
-        return spotService.selectAll();
+    public List<SpotDTO> findAll() {
+        return spotService.findAll();
     }
 
     @GetMapping("/count")
     @ResponseStatus(HttpStatus.OK)
-    public Long countSpots() {
-        return spotService.countSpots();
+    public Long count() {
+        return spotService.count();
     }
 
     @GetMapping("/amount-raised")
@@ -64,8 +64,8 @@ public class SpotController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SpotDTO insert(@RequestBody SpotDTO spotDTO) {
-        return spotService.insert(spotDTO);
+    public SpotDTO save(@RequestBody SpotDTO spotDTO) {
+        return spotService.save(spotDTO);
     }
 
     @PutMapping("/{id}")

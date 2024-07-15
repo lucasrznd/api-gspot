@@ -38,7 +38,7 @@ public class CompanyServiceTest {
         when(companyRepository.save(companyMapper.toModel(COMPANY_DTO))).thenReturn(COMPANY);
         when(companyMapper.toDTO(COMPANY)).thenReturn(COMPANY_DTO);
 
-        CompanyDTO sut = companyService.insert(COMPANY_DTO);
+        CompanyDTO sut = companyService.save(COMPANY_DTO);
 
         assertThat(sut).isNotNull();
         assertThat(sut).isEqualTo(COMPANY_DTO);
@@ -48,28 +48,28 @@ public class CompanyServiceTest {
     public void createCompany_WithInvalidData_ThrowsException() {
         when(companyRepository.save(companyMapper.toModel(INVALID_COMPANY_DTO))).thenThrow(RuntimeException.class);
 
-        assertThatThrownBy(() -> companyService.insert(INVALID_COMPANY_DTO)).isInstanceOf(RuntimeException.class);
+        assertThatThrownBy(() -> companyService.save(INVALID_COMPANY_DTO)).isInstanceOf(RuntimeException.class);
     }
 
     @Test
     public void createCompany_WithNullData_ThrowsException() {
         when(companyRepository.save(companyMapper.toModel(NULL_COMPANY_DTO))).thenThrow(RuntimeException.class);
 
-        assertThatThrownBy(() -> companyService.insert(NULL_COMPANY_DTO)).isInstanceOf(RuntimeException.class);
+        assertThatThrownBy(() -> companyService.save(NULL_COMPANY_DTO)).isInstanceOf(RuntimeException.class);
     }
 
     @Test
     public void countCompanies_ReturnsCompaniesQuantity() {
         when(companyRepository.count()).thenReturn(1L);
 
-        Long companiesQuantity = companyService.countCompanies();
+        Long companiesQuantity = companyService.count();
 
         assertThat(companiesQuantity).isEqualTo(1L);
     }
 
     @Test
     public void countCompanies_ReturnsEmpty() {
-        Long companiesQuantity = companyService.countCompanies();
+        Long companiesQuantity = companyService.count();
 
         assertThat(companiesQuantity).isZero();
     }
@@ -165,7 +165,7 @@ public class CompanyServiceTest {
         when(companyRepository.findAll()).thenReturn(companies);
         when(companyMapper.toDTO(COMPANY)).thenReturn(COMPANY_DTO);
 
-        List<CompanyDTO> sut = companyService.selectAll();
+        List<CompanyDTO> sut = companyService.findAll();
 
         assertThat(sut).isNotEmpty();
         assertThat(sut.size()).isEqualTo(1);
@@ -176,7 +176,7 @@ public class CompanyServiceTest {
     public void listCompanies_ReturnsEmpty() {
         when(companyRepository.findAll()).thenReturn(Collections.emptyList());
 
-        List<CompanyDTO> sut = companyService.selectAll();
+        List<CompanyDTO> sut = companyService.findAll();
 
         assertThat(sut).isEmpty();
     }

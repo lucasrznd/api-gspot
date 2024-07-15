@@ -39,7 +39,7 @@ public class CompanyControllerTest {
 
     @Test
     public void createCompany_WithValidData_ReturnsCreated() throws Exception {
-        when(companyService.insert(COMPANY_DTO)).thenReturn(COMPANY_DTO);
+        when(companyService.save(COMPANY_DTO)).thenReturn(COMPANY_DTO);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/company").content(objectMapper.writeValueAsString(COMPANY_DTO)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
@@ -61,7 +61,7 @@ public class CompanyControllerTest {
 
     @Test
     public void createCompany_WithExistingName_ReturnsConflict() throws Exception {
-        when(companyService.insert(any())).thenThrow(NameAlreadyExistsException.class);
+        when(companyService.save(any())).thenThrow(NameAlreadyExistsException.class);
 
         mockMvc.perform(post("/company").content(objectMapper.writeValueAsString(COMPANY_DTO))
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isConflict());
@@ -69,7 +69,7 @@ public class CompanyControllerTest {
 
     @Test
     public void createCompany_WithExistingPhoneNumber_ReturnsConflict() throws Exception {
-        when(companyService.insert(any())).thenThrow(PhoneNumberAlreadyExistsException.class);
+        when(companyService.save(any())).thenThrow(PhoneNumberAlreadyExistsException.class);
 
         mockMvc.perform(post("/company").content(objectMapper.writeValueAsString(COMPANY_DTO))
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isConflict());
@@ -77,7 +77,7 @@ public class CompanyControllerTest {
 
     @Test
     public void countCompanies_ReturnsCompaniesQuantity() throws Exception {
-        when(companyService.countCompanies()).thenReturn(1L);
+        when(companyService.count()).thenReturn(1L);
 
         mockMvc.perform(get("/company/count"))
                 .andExpect(status().isOk()).andExpect(jsonPath("$").value(1L));
@@ -102,7 +102,7 @@ public class CompanyControllerTest {
 
     @Test
     public void listCompanies_ReturnsCompanies() throws Exception {
-        when(companyService.selectAll()).thenReturn(COMPANIES_DTO_LIST);
+        when(companyService.findAll()).thenReturn(COMPANIES_DTO_LIST);
 
         mockMvc.perform(get("/company"))
                 .andExpect(status().isOk())

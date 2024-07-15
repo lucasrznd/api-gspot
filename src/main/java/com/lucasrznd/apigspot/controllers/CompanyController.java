@@ -28,20 +28,20 @@ public class CompanyController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<CompanyDTO> selectAll() {
-        return companyService.selectAll();
+    public List<CompanyDTO> findAll() {
+        return companyService.findAll();
     }
 
     @GetMapping("/count")
     @ResponseStatus(HttpStatus.OK)
-    public Long countCompanies() {
-        return companyService.countCompanies();
+    public Long count() {
+        return companyService.count();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CompanyDTO insert(@RequestBody @Valid CompanyDTO companyDTO) {
-        return companyService.insert(companyDTO);
+    public CompanyDTO save(@RequestBody @Valid CompanyDTO companyDTO) {
+        return companyService.save(companyDTO);
     }
 
     @PutMapping("/{id}")

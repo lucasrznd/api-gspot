@@ -45,7 +45,7 @@ public class AnnouncerServiceTest {
         when(announcerRepository.save(announcerMapper.toModel(ANNOUNCER_DTO))).thenReturn(ANNOUNCER);
         when(announcerMapper.toDTO(ANNOUNCER)).thenReturn(ANNOUNCER_DTO);
 
-        AnnouncerDTO sut = announcerService.insert(ANNOUNCER_DTO);
+        AnnouncerDTO sut = announcerService.save(ANNOUNCER_DTO);
 
         assertThat(sut).isNotNull();
         assertThat(sut).isEqualTo(ANNOUNCER_DTO);
@@ -55,7 +55,7 @@ public class AnnouncerServiceTest {
     public void createAnnouncer_WithInvalidData_ThrowsException() {
         when(announcerRepository.save(announcerMapper.toModel(INVALID_ANNOUNCER_DTO))).thenThrow(RuntimeException.class);
 
-        assertThatThrownBy(() -> announcerService.insert(INVALID_ANNOUNCER_DTO)).isInstanceOf(RuntimeException.class);
+        assertThatThrownBy(() -> announcerService.save(INVALID_ANNOUNCER_DTO)).isInstanceOf(RuntimeException.class);
     }
 
     @Test
@@ -63,21 +63,21 @@ public class AnnouncerServiceTest {
         when(announcerRepository.save(announcerMapper.toModel(NULL_ANNOUNCER_DTO)))
                 .thenThrow(RuntimeException.class);
 
-        assertThatThrownBy(() -> announcerService.insert(NULL_ANNOUNCER_DTO)).isInstanceOf(RuntimeException.class);
+        assertThatThrownBy(() -> announcerService.save(NULL_ANNOUNCER_DTO)).isInstanceOf(RuntimeException.class);
     }
 
     @Test
     public void countAnnouncers_ReturnsAnnouncersQuantity() {
         when(announcerRepository.count()).thenReturn(1L);
 
-        Long announcersQuantity = announcerService.countAnnouncers();
+        Long announcersQuantity = announcerService.count();
 
         assertThat(announcersQuantity).isEqualTo(1L);
     }
 
     @Test
     public void countAnnouncers_ReturnsEmpty() {
-        Long announcersQuantity = announcerService.countAnnouncers();
+        Long announcersQuantity = announcerService.count();
 
         assertThat(announcersQuantity).isEqualTo(0L);
     }
@@ -179,7 +179,7 @@ public class AnnouncerServiceTest {
         when(announcerRepository.findAll()).thenReturn(announcers);
         when(announcerMapper.toDTO(ANNOUNCER)).thenReturn(ANNOUNCER_DTO);
 
-        List<AnnouncerDTO> sut = announcerService.selectAll();
+        List<AnnouncerDTO> sut = announcerService.findAll();
 
         assertThat(sut).isNotEmpty();
         assertThat(sut).hasSize(1);
@@ -190,7 +190,7 @@ public class AnnouncerServiceTest {
     public void listAnnouncers_ReturnsEmpty() {
         when(announcerRepository.findAll()).thenReturn(Collections.emptyList());
 
-        List<AnnouncerDTO> sut = announcerService.selectAll();
+        List<AnnouncerDTO> sut = announcerService.findAll();
 
         assertThat(sut).isEmpty();
     }

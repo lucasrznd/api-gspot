@@ -26,11 +26,11 @@ public class SpotService {
         this.spotPrices = spotPrices;
     }
 
-    public List<SpotDTO> selectAll() {
+    public List<SpotDTO> findAll() {
         return spotRepository.findAll().stream().map(spotMapper::toDTO).toList();
     }
 
-    public Long countSpots() {
+    public Long count() {
         return spotRepository.count();
     }
 
@@ -43,11 +43,11 @@ public class SpotService {
     }
 
     public List<SpotDTO> getLatestSpots() {
-        return spotRepository.getLatestSpots().stream().map(spotMapper::toDTO).toList();
+        return spotRepository.findLatestSpots().stream().map(spotMapper::toDTO).toList();
     }
 
     public List<SpotDTO> getByDateRangeAnnouncerAndCompany(LocalDate initialDate, LocalDate finalDate, String companyName, String announcerName) {
-        return spotRepository.getByDateRangeAnnouncerAndCompany(initialDate, finalDate, companyName, announcerName)
+        return spotRepository.findByDateRangeAnnouncerAndCompany(initialDate, finalDate, companyName, announcerName)
                 .stream().map(spotMapper::toDTO).toList();
     }
 
@@ -68,7 +68,7 @@ public class SpotService {
         return BigDecimal.ZERO;
     }
 
-    public SpotDTO insert(SpotDTO spotDTO) {
+    public SpotDTO save(SpotDTO spotDTO) {
         SpotModel spotModel;
         spotModel = spotMapper.toModel(spotDTO);
 

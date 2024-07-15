@@ -22,15 +22,15 @@ public class AnnouncerService {
         this.announcerMapper = announcerMapper;
     }
 
-    public List<AnnouncerDTO> selectAll() {
+    public List<AnnouncerDTO> findAll() {
         return announcerRepository.findAll().stream().map(announcerMapper::toDTO).toList();
     }
 
-    public Long countAnnouncers() {
+    public Long count() {
         return announcerRepository.count();
     }
 
-    public AnnouncerDTO insert(AnnouncerDTO announcerDTO) {
+    public AnnouncerDTO save(AnnouncerDTO announcerDTO) {
         checkIfNameAlreadyExists(announcerDTO.name());
         checkIfPhoneNumberAlreadyExists(announcerDTO.phoneNumber());
 

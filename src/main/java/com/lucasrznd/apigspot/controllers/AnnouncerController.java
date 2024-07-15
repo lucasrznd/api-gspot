@@ -20,20 +20,20 @@ public class AnnouncerController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<AnnouncerDTO> selectAll() {
-        return announcerService.selectAll();
+    public List<AnnouncerDTO> findAll() {
+        return announcerService.findAll();
     }
 
     @GetMapping("/countAnnouncers")
     @ResponseStatus(HttpStatus.OK)
-    public Long countAnnouncers() {
-        return announcerService.countAnnouncers();
+    public Long count() {
+        return announcerService.count();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AnnouncerDTO insert(@Valid @RequestBody AnnouncerDTO announcerDTO) {
-        return announcerService.insert(announcerDTO);
+    public AnnouncerDTO save(@Valid @RequestBody AnnouncerDTO announcerDTO) {
+        return announcerService.save(announcerDTO);
     }
 
     @PutMapping("/{id}")

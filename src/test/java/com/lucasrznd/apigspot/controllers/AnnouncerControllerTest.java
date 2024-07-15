@@ -38,7 +38,7 @@ public class AnnouncerControllerTest {
 
     @Test
     public void createAnnouncer_WithValidData_ReturnsCreated() throws Exception {
-        when(announcerService.insert(ANNOUNCER_DTO)).thenReturn(ANNOUNCER_DTO);
+        when(announcerService.save(ANNOUNCER_DTO)).thenReturn(ANNOUNCER_DTO);
 
         mockMvc.perform(post("/announcer").content(objectMapper.writeValueAsString(ANNOUNCER_DTO)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
@@ -60,7 +60,7 @@ public class AnnouncerControllerTest {
 
     @Test
     public void createAnnouncer_WithExistingName_ReturnsConflict() throws Exception {
-        when(announcerService.insert(any())).thenThrow(NameAlreadyExistsException.class);
+        when(announcerService.save(any())).thenThrow(NameAlreadyExistsException.class);
 
         mockMvc.perform(post("/announcer").content(objectMapper.writeValueAsString(ANNOUNCER_DTO))
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isConflict());
@@ -68,7 +68,7 @@ public class AnnouncerControllerTest {
 
     @Test
     public void createAnnouncer_WithExistingPhoneNumber_ReturnsConflict() throws Exception {
-        when(announcerService.insert(any())).thenThrow(PhoneNumberAlreadyExistsException.class);
+        when(announcerService.save(any())).thenThrow(PhoneNumberAlreadyExistsException.class);
 
         mockMvc.perform(post("/announcer").content(objectMapper.writeValueAsString(ANNOUNCER_DTO))
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isConflict());
@@ -76,7 +76,7 @@ public class AnnouncerControllerTest {
 
     @Test
     public void countAnnouncers_ReturnsAnnouncersQuantity() throws Exception {
-        when(announcerService.countAnnouncers()).thenReturn(1L);
+        when(announcerService.count()).thenReturn(1L);
 
         mockMvc.perform(get("/announcer/countAnnouncers"))
                 .andExpect(status().isOk()).andExpect(jsonPath("$").value(1L));
@@ -101,7 +101,7 @@ public class AnnouncerControllerTest {
 
     @Test
     public void listAnnouncers_ReturnsAnnouncers() throws Exception {
-        when(announcerService.selectAll()).thenReturn(ANNOUNCERS_DTO_LIST);
+        when(announcerService.findAll()).thenReturn(ANNOUNCERS_DTO_LIST);
 
         mockMvc.perform(get("/announcer"))
                 .andExpect(status().isOk())

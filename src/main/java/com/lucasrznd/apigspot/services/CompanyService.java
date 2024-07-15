@@ -22,15 +22,15 @@ public class CompanyService {
         this.companyMapper = companyMapper;
     }
 
-    public List<CompanyDTO> selectAll() {
+    public List<CompanyDTO> findAll() {
         return companyRepository.findAll().stream().map(companyMapper::toDTO).toList();
     }
 
-    public Long countCompanies() {
+    public Long count() {
         return companyRepository.count();
     }
 
-    public CompanyDTO insert(CompanyDTO companyDTO) {
+    public CompanyDTO save(CompanyDTO companyDTO) {
         checkIfNameAlreadyExists(companyDTO.name());
         checkIfPhoneNumberAlreadyExists(companyDTO.phoneNumber());
 

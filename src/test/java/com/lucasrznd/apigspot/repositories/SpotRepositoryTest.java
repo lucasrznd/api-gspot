@@ -145,7 +145,7 @@ public class SpotRepositoryTest {
     @Sql(scripts = "/import_spots.sql")
     @Test
     public void listSpots_ReturnsLatestSpotsOrderByDate() {
-        List<SpotModel> response = spotRepository.getLatestSpots();
+        List<SpotModel> response = spotRepository.findLatestSpots();
 
         assertThat(response).isNotNull();
         assertThat(response.size()).isEqualTo(2);
