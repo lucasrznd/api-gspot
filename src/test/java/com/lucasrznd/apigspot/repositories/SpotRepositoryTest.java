@@ -1,11 +1,5 @@
 package com.lucasrznd.apigspot.repositories;
 
-import static com.lucasrznd.apigspot.common.CompanyConstants.COMPANY;
-import static com.lucasrznd.apigspot.common.AnnouncerConstants.ANNOUNCER;
-import static com.lucasrznd.apigspot.common.SpotConstants.SPOT;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-
 import com.lucasrznd.apigspot.models.AnnouncerModel;
 import com.lucasrznd.apigspot.models.CompanyModel;
 import com.lucasrznd.apigspot.models.SpotModel;
@@ -20,6 +14,12 @@ import org.springframework.test.context.jdbc.Sql;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+
+import static com.lucasrznd.apigspot.common.AnnouncerConstants.ANNOUNCER;
+import static com.lucasrznd.apigspot.common.CompanyConstants.COMPANY;
+import static com.lucasrznd.apigspot.common.SpotConstants.SPOT;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @DataJpaTest
 @ActiveProfiles("test")
@@ -39,6 +39,8 @@ public class SpotRepositoryTest {
 
     @AfterEach
     public void setUp() {
+        COMPANY.setId(null);
+        ANNOUNCER.setId(null);
         SPOT.setId(null);
     }
 
@@ -148,6 +150,24 @@ public class SpotRepositoryTest {
         assertThat(response).isNotNull();
         assertThat(response.size()).isEqualTo(2);
         assertThat(response.get(0).getTitle()).isEqualTo(SPOT.getTitle());
+    }
+
+    @Test
+    public void listSpots_ReturnsEmpty() {
+        List<SpotModel> response = spotRepository.findAll();
+
+        assertThat(response).isEmpty();
+    }
+
+    @Test
+    public void countSpots_ReturnsSpotsQuantity() {
+        companyRepository.save(COMPANY);
+        announcerRepository.save(ANNOUNCER);
+        testEntityManager.persist(SPOT);
+
+        Long spotsQuantity = spotRepository.count();
+
+        assertThat(spotsQuantity).isEqualTo(1L);
     }
 
 }
