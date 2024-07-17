@@ -14,35 +14,35 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequestMapping("/announcer")
 public class AnnouncerController {
 
-    private final AnnouncerService announcerService;
+    private final AnnouncerService service;
 
-    public AnnouncerController(AnnouncerService announcerService) {
-        this.announcerService = announcerService;
+    public AnnouncerController(AnnouncerService service) {
+        this.service = service;
     }
 
     @GetMapping
     public ResponseEntity<List<AnnouncerDTO>> findAll() {
-        return ResponseEntity.ok().body(announcerService.findAll());
+        return ResponseEntity.ok().body(service.findAll());
     }
 
     @GetMapping("/count")
     public ResponseEntity<Long> count() {
-        return ResponseEntity.ok().body(announcerService.count());
+        return ResponseEntity.ok().body(service.count());
     }
 
     @PostMapping
     public ResponseEntity<AnnouncerDTO> save(@RequestBody @Valid AnnouncerDTO announcerDTO) {
-        return ResponseEntity.status(CREATED).body(announcerService.save(announcerDTO));
+        return ResponseEntity.status(CREATED).body(service.save(announcerDTO));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<AnnouncerDTO> update(@PathVariable Long id, @RequestBody @Valid AnnouncerDTO announcerDTO) {
-        return ResponseEntity.ok().body(announcerService.update(id, announcerDTO));
+        return ResponseEntity.ok().body(service.update(id, announcerDTO));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        announcerService.delete(id);
+        service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
