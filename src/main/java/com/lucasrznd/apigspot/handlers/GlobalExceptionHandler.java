@@ -1,8 +1,6 @@
 package com.lucasrznd.apigspot.handlers;
 
 import com.lucasrznd.apigspot.exceptions.common.*;
-import com.lucasrznd.apigspot.exceptions.company.CompanyNotFoundException;
-import com.lucasrznd.apigspot.exceptions.company.DuplicateCompanyException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -85,26 +83,6 @@ public class GlobalExceptionHandler {
         }
 
         return ResponseEntity.badRequest().body(error);
-    }
-
-    @ExceptionHandler(CompanyNotFoundException.class)
-    private ResponseEntity<StandardError> handleCompanyNotFoundException(final CompanyNotFoundException ex, final HttpServletRequest request) {
-        return ResponseEntity.status(NOT_FOUND).body(
-                StandardError.builder()
-                        .timestamp(LocalDateTime.now()).status(NOT_FOUND.value())
-                        .error(NOT_FOUND.getReasonPhrase()).message(ex.getMessage())
-                        .path(request.getRequestURI()).build()
-        );
-    }
-
-    @ExceptionHandler(DuplicateCompanyException.class)
-    private ResponseEntity<StandardError> handleDuplicateCompanyException(final DuplicateCompanyException ex, final HttpServletRequest request) {
-        return ResponseEntity.status(CONFLICT).body(
-                StandardError.builder()
-                        .timestamp(LocalDateTime.now()).status(CONFLICT.value())
-                        .error(NOT_FOUND.getReasonPhrase()).message(ex.getMessage())
-                        .path(request.getRequestURI()).build()
-        );
     }
 
 }
