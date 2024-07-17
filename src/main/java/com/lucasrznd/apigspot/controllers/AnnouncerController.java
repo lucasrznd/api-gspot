@@ -24,7 +24,7 @@ public class AnnouncerController {
         return announcerService.findAll();
     }
 
-    @GetMapping("/countAnnouncers")
+    @GetMapping("/count")
     @ResponseStatus(HttpStatus.OK)
     public Long count() {
         return announcerService.count();
