@@ -3,6 +3,7 @@ package com.lucasrznd.apigspot.controllers;
 import com.lucasrznd.apigspot.dtos.request.CompanyDTO;
 import com.lucasrznd.apigspot.services.CompanyService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,13 +13,10 @@ import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("/company")
+@RequiredArgsConstructor
 public class CompanyController {
 
     private final CompanyService service;
-
-    public CompanyController(CompanyService service) {
-        this.service = service;
-    }
 
     @GetMapping
     public ResponseEntity<List<CompanyDTO>> findAll() {

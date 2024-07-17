@@ -4,6 +4,7 @@ import com.lucasrznd.apigspot.dtos.request.SpotDTO;
 import com.lucasrznd.apigspot.dtos.response.SpotResponse;
 import com.lucasrznd.apigspot.services.SpotService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,13 +16,10 @@ import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("/spot")
+@RequiredArgsConstructor
 public class SpotController {
 
     private final SpotService service;
-
-    public SpotController(SpotService service) {
-        this.service = service;
-    }
 
     @GetMapping
     public ResponseEntity<List<SpotResponse>> findAll() {

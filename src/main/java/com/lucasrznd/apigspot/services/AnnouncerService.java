@@ -6,20 +6,17 @@ import com.lucasrznd.apigspot.exceptions.common.NameAlreadyExistsException;
 import com.lucasrznd.apigspot.exceptions.common.PhoneNumberAlreadyExistsException;
 import com.lucasrznd.apigspot.exceptions.common.ResourceNotFoundException;
 import com.lucasrznd.apigspot.repositories.AnnouncerRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AnnouncerService {
 
     private final AnnouncerRepository repository;
     private final AnnouncerMapper mapper;
-
-    public AnnouncerService(AnnouncerRepository repository, AnnouncerMapper mapper) {
-        this.repository = repository;
-        this.mapper = mapper;
-    }
 
     public List<AnnouncerDTO> findAll() {
         return repository.findAll().stream().map(mapper::toDTO).toList();

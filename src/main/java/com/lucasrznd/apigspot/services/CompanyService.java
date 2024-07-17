@@ -6,20 +6,17 @@ import com.lucasrznd.apigspot.exceptions.common.NameAlreadyExistsException;
 import com.lucasrznd.apigspot.exceptions.common.PhoneNumberAlreadyExistsException;
 import com.lucasrznd.apigspot.exceptions.common.ResourceNotFoundException;
 import com.lucasrznd.apigspot.repositories.CompanyRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CompanyService {
 
     private final CompanyRepository repository;
     private final CompanyMapper mapper;
-
-    public CompanyService(CompanyRepository repository, CompanyMapper mapper) {
-        this.repository = repository;
-        this.mapper = mapper;
-    }
 
     public List<CompanyDTO> findAll() {
         return repository.findAll().stream().map(mapper::toDTO).toList();
