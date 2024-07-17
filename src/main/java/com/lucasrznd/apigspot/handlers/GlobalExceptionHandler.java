@@ -1,59 +1,110 @@
 package com.lucasrznd.apigspot.handlers;
 
-import com.lucasrznd.apigspot.exceptions.announcer.AnnouncerNotFoundException;
-import com.lucasrznd.apigspot.exceptions.announcer.DuplicateAnnouncerException;
-import com.lucasrznd.apigspot.exceptions.common.NameAlreadyExistsException;
-import com.lucasrznd.apigspot.exceptions.common.PhoneNumberAlreadyExistsException;
+import com.lucasrznd.apigspot.exceptions.common.*;
 import com.lucasrznd.apigspot.exceptions.company.CompanyNotFoundException;
 import com.lucasrznd.apigspot.exceptions.company.DuplicateCompanyException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+import static org.springframework.http.HttpStatus.*;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
-    private ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+    private ResponseEntity<StandardError> handleConstraintViolationException(final ConstraintViolationException ex, final HttpServletRequest request) {
+        return ResponseEntity.status(UNPROCESSABLE_ENTITY).body(
+                StandardError.builder()
+                        .timestamp(LocalDateTime.now()).status(UNPROCESSABLE_ENTITY.value())
+                        .error(UNPROCESSABLE_ENTITY.getReasonPhrase()).message(ex.getMessage())
+                        .path(request.getRequestURI()).build()
+        );
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    private ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    private ResponseEntity<StandardError> handleDataIntegrityViolationException(final DataIntegrityViolationException ex, final HttpServletRequest request) {
+        return ResponseEntity.status(CONFLICT).body(
+                StandardError.builder()
+                        .timestamp(LocalDateTime.now()).status(CONFLICT.value())
+                        .error(CONFLICT.getReasonPhrase()).message(ex.getMessage())
+                        .path(request.getRequestURI()).build()
+        );
     }
 
     @ExceptionHandler(NameAlreadyExistsException.class)
-    private ResponseEntity<String> handleNameAlreadyExistsException(NameAlreadyExistsException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    private ResponseEntity<StandardError> handleNameAlreadyExistsException(final NameAlreadyExistsException ex, final HttpServletRequest request) {
+        return ResponseEntity.status(CONFLICT).body(
+                StandardError.builder()
+                        .timestamp(LocalDateTime.now()).status(CONFLICT.value())
+                        .error(CONFLICT.getReasonPhrase()).message(ex.getMessage())
+                        .path(request.getRequestURI()).build()
+        );
     }
 
     @ExceptionHandler(PhoneNumberAlreadyExistsException.class)
-    private ResponseEntity<String> handlePhoneNumberAlreadyExistsException(PhoneNumberAlreadyExistsException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    private ResponseEntity<StandardError> handlePhoneNumberAlreadyExistsException(final PhoneNumberAlreadyExistsException ex, final HttpServletRequest request) {
+        return ResponseEntity.status(CONFLICT).body(
+                StandardError.builder()
+                        .timestamp(LocalDateTime.now()).status(CONFLICT.value())
+                        .error(CONFLICT.getReasonPhrase()).message(ex.getMessage())
+                        .path(request.getRequestURI()).build()
+        );
     }
 
-    @ExceptionHandler(AnnouncerNotFoundException.class)
-    private ResponseEntity<String> handleAnnouncerNotFoundException(AnnouncerNotFoundException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<StandardError> handleNotFoundException(final ResourceNotFoundException ex, final HttpServletRequest request) {
+        return ResponseEntity.status(NOT_FOUND).body(
+                StandardError.builder()
+                        .timestamp(LocalDateTime.now()).status(NOT_FOUND.value())
+                        .error(NOT_FOUND.getReasonPhrase()).message(ex.getMessage())
+                        .path(request.getRequestURI()).build()
+        );
     }
 
-    @ExceptionHandler(DuplicateAnnouncerException.class)
-    private ResponseEntity<String> handleDuplicateAnnouncerException(DuplicateAnnouncerException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ValidationException> handleArgumentNotValidException(final MethodArgumentNotValidException ex, final HttpServletRequest request) {
+        var error = ValidationException.builder()
+                .timestamp(LocalDateTime.now())
+                .status(BAD_REQUEST.value())
+                .error(BAD_REQUEST.getReasonPhrase())
+                .message("Exception in validation attributes")
+                .errors(new ArrayList<>())
+                .path(request.getRequestURI()).build();
+
+        for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
+            error.addError(fieldError.getObjectName(), fieldError.getDefaultMessage());
+        }
+
+        return ResponseEntity.badRequest().body(error);
     }
 
     @ExceptionHandler(CompanyNotFoundException.class)
-    private ResponseEntity<String> handleCompanyNotFoundException(CompanyNotFoundException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    private ResponseEntity<StandardError> handleCompanyNotFoundException(final CompanyNotFoundException ex, final HttpServletRequest request) {
+        return ResponseEntity.status(NOT_FOUND).body(
+                StandardError.builder()
+                        .timestamp(LocalDateTime.now()).status(NOT_FOUND.value())
+                        .error(NOT_FOUND.getReasonPhrase()).message(ex.getMessage())
+                        .path(request.getRequestURI()).build()
+        );
     }
 
     @ExceptionHandler(DuplicateCompanyException.class)
-    private ResponseEntity<String> handleDuplicateCompanyException(DuplicateCompanyException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    private ResponseEntity<StandardError> handleDuplicateCompanyException(final DuplicateCompanyException ex, final HttpServletRequest request) {
+        return ResponseEntity.status(CONFLICT).body(
+                StandardError.builder()
+                        .timestamp(LocalDateTime.now()).status(CONFLICT.value())
+                        .error(NOT_FOUND.getReasonPhrase()).message(ex.getMessage())
+                        .path(request.getRequestURI()).build()
+        );
     }
 
 }
