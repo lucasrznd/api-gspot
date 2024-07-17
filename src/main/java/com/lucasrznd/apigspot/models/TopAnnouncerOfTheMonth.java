@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Setter
 @Entity
 @Table(name = "top_monthly_announcer")
-public class TopMonthlyAnnouncer implements Serializable {
+public class TopAnnouncerOfTheMonth implements Serializable {
 
     @Id
     @Column(name = "announcer_name")

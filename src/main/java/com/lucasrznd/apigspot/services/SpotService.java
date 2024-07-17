@@ -7,6 +7,7 @@ import com.lucasrznd.apigspot.exceptions.common.ResourceNotFoundException;
 import com.lucasrznd.apigspot.models.SpotModel;
 import com.lucasrznd.apigspot.repositories.SpotRepository;
 import com.lucasrznd.apigspot.strategy.SpotPrice;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,17 +15,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SpotService {
 
     private final SpotRepository repository;
     private final SpotMapper mapper;
     private final List<SpotPrice> spotPrices;
-
-    public SpotService(SpotRepository repository, SpotMapper mapper, List<SpotPrice> spotPrices) {
-        this.repository = repository;
-        this.mapper = mapper;
-        this.spotPrices = spotPrices;
-    }
 
     public List<SpotResponse> findAll() {
         return repository.findAll().stream().map(mapper::toResponse).toList();
@@ -37,7 +33,7 @@ public class SpotService {
     public Double getAmountRaised() {
         Double var = repository.getAmountRaised();
 
-        return var == null ? 0D: var;
+        return var == null ? 0D : var;
     }
 
     public BigDecimal getAmountRaisedMonth() {
