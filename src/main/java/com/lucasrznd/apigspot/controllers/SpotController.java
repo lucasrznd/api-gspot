@@ -4,82 +4,75 @@ import com.lucasrznd.apigspot.dtos.request.SpotDTO;
 import com.lucasrznd.apigspot.dtos.response.SpotResponse;
 import com.lucasrznd.apigspot.services.SpotService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 @RestController
 @RequestMapping("/spot")
 public class SpotController {
 
-    private final SpotService spotService;
+    private final SpotService service;
 
-    public SpotController(SpotService spotService) {
-        this.spotService = spotService;
+    public SpotController(SpotService service) {
+        this.service = service;
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<SpotResponse> findAll() {
-        return spotService.findAll();
+    public ResponseEntity<List<SpotResponse>> findAll() {
+        return ResponseEntity.ok().body(service.findAll());
     }
 
     @GetMapping("/count")
-    @ResponseStatus(HttpStatus.OK)
-    public Long count() {
-        return spotService.count();
+    public ResponseEntity<Long> count() {
+        return ResponseEntity.ok().body(service.count());
     }
 
     @GetMapping("/amount-raised")
-    @ResponseStatus(HttpStatus.OK)
-    public Double getAmountRaised() {
-        return spotService.getAmountRaised();
+    public ResponseEntity<Double> getAmountRaised() {
+        return ResponseEntity.ok().body(service.getAmountRaised());
     }
 
     @GetMapping("/amount-raised-month")
-    @ResponseStatus(HttpStatus.OK)
-    public BigDecimal getAmountRaisedMonth() {
-        return spotService.getAmountRaisedMonth();
+    public ResponseEntity<BigDecimal> getAmountRaisedMonth() {
+        return ResponseEntity.ok().body(service.getAmountRaisedMonth());
     }
 
     @GetMapping("/calculate-price")
-    @ResponseStatus(HttpStatus.OK)
-    public Double calculateSpotPrice(@RequestParam Double duration, @RequestParam boolean activeContract) {
-        return spotService.calculateSpotPrice(duration, activeContract);
+    public ResponseEntity<Double> calculateSpotPrice(@RequestParam Double duration, @RequestParam boolean activeContract) {
+        return ResponseEntity.ok().body(service.calculateSpotPrice(duration, activeContract));
     }
 
     @GetMapping("/latest")
-    @ResponseStatus(HttpStatus.OK)
-    public List<SpotResponse> findLatestSpots() {
-        return spotService.findLatestSpots();
+    public ResponseEntity<List<SpotResponse>> findLatestSpots() {
+        return ResponseEntity.ok().body(service.findLatestSpots());
     }
 
     @GetMapping("/search")
-    @ResponseStatus(HttpStatus.OK)
-    public List<SpotDTO> searchSpot(@RequestParam LocalDate initialDate, @RequestParam LocalDate finalDate,
-                                    @RequestParam(required = false) String companyName, @RequestParam(required = false) String announcerName) {
-        return spotService.getByDateRangeAnnouncerAndCompany(initialDate, finalDate, companyName, announcerName);
+    public ResponseEntity<List<SpotDTO>> searchSpot(@RequestParam LocalDate initialDate, @RequestParam LocalDate finalDate,
+                                                    @RequestParam(required = false) String companyName, @RequestParam(required = false) String announcerName) {
+        return ResponseEntity.ok().body(service.getByDateRangeAnnouncerAndCompany(initialDate, finalDate, companyName, announcerName));
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public SpotResponse save(@RequestBody @Valid SpotDTO spotDTO) {
-        return spotService.save(spotDTO);
+    public ResponseEntity<SpotResponse> save(@RequestBody @Valid SpotDTO spotDTO) {
+        return ResponseEntity.status(CREATED).body(service.save(spotDTO));
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public SpotResponse update(@PathVariable Long id, @RequestBody @Valid SpotDTO spotDTO) {
-        return spotService.update(id, spotDTO);
+    public ResponseEntity<SpotResponse> update(@PathVariable Long id, @RequestBody @Valid SpotDTO spotDTO) {
+        return ResponseEntity.ok().body(service.update(id, spotDTO));
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable Long id) {
-        spotService.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
