@@ -1,8 +1,9 @@
 package com.lucasrznd.apigspot.services;
 
-import com.lucasrznd.apigspot.dtos.SpotDTO;
 import com.lucasrznd.apigspot.dtos.mappers.SpotMapper;
-import com.lucasrznd.apigspot.exceptions.spot.SpotNotFoundException;
+import com.lucasrznd.apigspot.dtos.request.SpotDTO;
+import com.lucasrznd.apigspot.dtos.response.SpotResponse;
+import com.lucasrznd.apigspot.exceptions.common.ResourceNotFoundException;
 import com.lucasrznd.apigspot.models.SpotModel;
 import com.lucasrznd.apigspot.repositories.SpotRepository;
 import com.lucasrznd.apigspot.strategy.SpotPrice;
@@ -11,66 +12,54 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class SpotService {
 
-    private final SpotRepository spotRepository;
-    private final SpotMapper spotMapper;
+    private final SpotRepository repository;
+    private final SpotMapper mapper;
     private final List<SpotPrice> spotPrices;
 
-    public SpotService(SpotRepository spotRepository, SpotMapper spotMapper, List<SpotPrice> spotPrices) {
-        this.spotRepository = spotRepository;
-        this.spotMapper = spotMapper;
+    public SpotService(SpotRepository repository, SpotMapper mapper, List<SpotPrice> spotPrices) {
+        this.repository = repository;
+        this.mapper = mapper;
         this.spotPrices = spotPrices;
     }
 
-    public List<SpotDTO> findAll() {
-        return spotRepository.findAll().stream().map(spotMapper::toDTO).toList();
+    public List<SpotResponse> findAll() {
+        return repository.findAll().stream().map(mapper::toResponse).toList();
     }
 
     public Long count() {
-        return spotRepository.count();
+        return repository.count();
     }
 
-    public BigDecimal getAmountRaised() {
-        return spotRepository.getAmountRaised();
+    public Double getAmountRaised() {
+        Double var = repository.getAmountRaised();
+
+        return var == null ? 0D: var;
     }
 
     public BigDecimal getAmountRaisedMonth() {
-        return spotRepository.getAmountRaisedMonth();
+        return repository.getAmountRaisedMonth();
     }
 
-    public List<SpotDTO> findLatestSpots() {
-        return spotRepository.findLatestSpots().stream().map(spotMapper::toDTO).toList();
+    public List<SpotResponse> findLatestSpots() {
+        return repository.findLatestSpots().stream().map(mapper::toResponse).toList();
     }
 
-    public List<SpotDTO> getByDateRangeAnnouncerAndCompany(LocalDate initialDate, LocalDate finalDate, String companyName, String announcerName) {
-        return spotRepository.findByDateRangeAnnouncerAndCompany(initialDate, finalDate, companyName, announcerName)
-                .stream().map(spotMapper::toDTO).toList();
+    public List<SpotDTO> getByDateRangeAnnouncerAndCompany(final LocalDate initialDate, final LocalDate finalDate, final String companyName, final String announcerName) {
+        return repository.findByDateRangeAnnouncerAndCompany(initialDate, finalDate, companyName, announcerName)
+                .stream().map(mapper::toDTO).toList();
     }
 
-    public BigDecimal calculateSpotPrice(Double duration, boolean isActiveContract) {
-        if (Objects.nonNull(duration)) {
-            for (SpotPrice spotPrice : spotPrices) {
-                BigDecimal price = spotPrice.calculatePrice(duration, isActiveContract);
-                if (price.compareTo(BigDecimal.ZERO) != 0) {
-                    return price;
-                } else if (isActiveContract && duration <= 0.35) {
-                    return BigDecimal.ZERO;
-                } else if (!isActiveContract && duration == 0) {
-                    return BigDecimal.ZERO;
-                }
-            }
-        }
-
-        return BigDecimal.ZERO;
+    public Double calculateSpotPrice(Double duration, boolean isActiveContract) {
+        return spotPrices.stream().mapToDouble(impl -> impl.calculatePrice(duration, isActiveContract)).sum();
     }
 
-    public SpotDTO save(SpotDTO spotDTO) {
+    public SpotResponse save(SpotDTO spotDTO) {
         SpotModel spotModel;
-        spotModel = spotMapper.toModel(spotDTO);
+        spotModel = mapper.toModel(spotDTO);
 
         if (spotDTO.date() == null) {
             spotModel.setDate(LocalDate.now());
@@ -78,19 +67,26 @@ public class SpotService {
 
         spotModel.setPrice(calculateSpotPrice(spotModel.getDuration(), spotModel.isActiveContract()));
 
-        return spotMapper.toDTO(spotRepository.save(spotModel));
+        return mapper.toResponse(repository.save(spotModel));
     }
 
-    public SpotDTO update(Long id, SpotDTO spotDTO) {
-        return spotRepository.findById(id)
+    public SpotResponse update(final Long id, SpotDTO spotDTO) {
+        return repository.findById(id)
                 .map(spotFound -> {
-                    spotFound = spotMapper.toModel(spotDTO);
-                    return spotMapper.toDTO(spotRepository.save(spotFound));
-                }).orElseThrow(() -> new SpotNotFoundException("Spot not found"));
+                    spotFound.setTitle(spotDTO.title());
+                    spotFound.setCompany(mapper.companyToModel(spotDTO.company()));
+                    spotFound.setAnnouncer(mapper.announcerToModel(spotDTO.announcer()));
+                    spotFound.setDate(spotDTO.date() != null ? spotDTO.date() : LocalDate.now());
+                    spotFound.setDuration(spotDTO.duration());
+                    spotFound.setActiveContract(spotDTO.activeContract());
+                    spotFound.setPrice(calculateSpotPrice(spotDTO.duration(), spotDTO.activeContract()));
+                    return mapper.toResponse(repository.save(spotFound));
+                }).orElseThrow(() -> new ResourceNotFoundException("Object not found. Id: " + id + ", Type: " + SpotDTO.class.getSimpleName()));
     }
 
-    public void delete(Long id) {
-        spotRepository.delete(spotRepository.findById(id).orElseThrow(() -> new SpotNotFoundException("Spot not found")));
+    public void delete(final Long id) {
+        repository.delete(repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Object not found. Id: " + id + ", Type: " + SpotDTO.class.getSimpleName())));
     }
 
 }

@@ -4,6 +4,6 @@ import java.math.BigDecimal;
 
 public interface SpotPrice {
 
-    BigDecimal calculatePrice(Double duration, boolean activeContract);
+    Double calculatePrice(Double duration, boolean activeContract);
 
 }

@@ -1,6 +1,7 @@
 package com.lucasrznd.apigspot.controllers;
 
-import com.lucasrznd.apigspot.dtos.SpotDTO;
+import com.lucasrznd.apigspot.dtos.request.SpotDTO;
+import com.lucasrznd.apigspot.dtos.response.SpotResponse;
 import com.lucasrznd.apigspot.services.SpotService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public class SpotController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<SpotDTO> findAll() {
+    public List<SpotResponse> findAll() {
         return spotService.findAll();
     }
 
@@ -34,7 +35,7 @@ public class SpotController {
 
     @GetMapping("/amount-raised")
     @ResponseStatus(HttpStatus.OK)
-    public BigDecimal getAmountRaised() {
+    public Double getAmountRaised() {
         return spotService.getAmountRaised();
     }
 
@@ -46,13 +47,13 @@ public class SpotController {
 
     @GetMapping("/calculate-price")
     @ResponseStatus(HttpStatus.OK)
-    public BigDecimal calculateSpotPrice(@RequestParam Double duration, @RequestParam boolean activeContract) {
+    public Double calculateSpotPrice(@RequestParam Double duration, @RequestParam boolean activeContract) {
         return spotService.calculateSpotPrice(duration, activeContract);
     }
 
     @GetMapping("/latest")
     @ResponseStatus(HttpStatus.OK)
-    public List<SpotDTO> findLatestSpots() {
+    public List<SpotResponse> findLatestSpots() {
         return spotService.findLatestSpots();
     }
 
@@ -65,13 +66,13 @@ public class SpotController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SpotDTO save(@RequestBody @Valid SpotDTO spotDTO) {
+    public SpotResponse save(@RequestBody @Valid SpotDTO spotDTO) {
         return spotService.save(spotDTO);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public SpotDTO update(@PathVariable Long id, @RequestBody @Valid SpotDTO spotDTO) {
+    public SpotResponse update(@PathVariable Long id, @RequestBody @Valid SpotDTO spotDTO) {
         return spotService.update(id, spotDTO);
     }
 

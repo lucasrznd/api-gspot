@@ -11,7 +11,7 @@ import java.util.List;
 public interface SpotRepository extends JpaRepository<SpotModel, Long> {
 
     @Query("SELECT SUM(s.price) FROM SpotModel s")
-    BigDecimal getAmountRaised();
+    Double getAmountRaised();
 
     @Query(nativeQuery = true, value = "SELECT * FROM amount_raised_month")
     BigDecimal getAmountRaisedMonth();

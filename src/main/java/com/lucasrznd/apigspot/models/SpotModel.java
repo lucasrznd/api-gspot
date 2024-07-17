@@ -8,7 +8,6 @@ import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -44,7 +43,7 @@ public class SpotModel implements Serializable {
     private boolean activeContract;
 
     @Column(name = "price")
-    private BigDecimal price;
+    private Double price;
 
     @Override
     public boolean equals(Object obj) {
