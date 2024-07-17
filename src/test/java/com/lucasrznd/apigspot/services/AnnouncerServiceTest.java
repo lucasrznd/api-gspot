@@ -2,9 +2,9 @@ package com.lucasrznd.apigspot.services;
 
 import com.lucasrznd.apigspot.dtos.AnnouncerDTO;
 import com.lucasrznd.apigspot.dtos.mappers.AnnouncerMapper;
-import com.lucasrznd.apigspot.exceptions.announcer.AnnouncerNotFoundException;
 import com.lucasrznd.apigspot.exceptions.common.NameAlreadyExistsException;
 import com.lucasrznd.apigspot.exceptions.common.PhoneNumberAlreadyExistsException;
+import com.lucasrznd.apigspot.exceptions.common.ResourceNotFoundException;
 import com.lucasrznd.apigspot.models.AnnouncerModel;
 import com.lucasrznd.apigspot.repositories.AnnouncerRepository;
 import org.junit.jupiter.api.Test;
@@ -17,15 +17,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static com.lucasrznd.apigspot.common.AnnouncerConstants.ANNOUNCER;
-import static com.lucasrznd.apigspot.common.AnnouncerConstants.ANNOUNCER_DTO;
-import static com.lucasrznd.apigspot.common.AnnouncerConstants.INVALID_ANNOUNCER_DTO;
-import static com.lucasrznd.apigspot.common.AnnouncerConstants.JOHN_DOE;
-import static com.lucasrznd.apigspot.common.AnnouncerConstants.JOHN_DOE_DTO;
-import static com.lucasrznd.apigspot.common.AnnouncerConstants.NULL_ANNOUNCER_DTO;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static com.lucasrznd.apigspot.common.AnnouncerConstants.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -98,53 +91,12 @@ public class AnnouncerServiceTest {
     public void updateAnnouncer_WithUnexistingId_ThrowsException() {
         when(announcerRepository.findById(2L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> announcerService.update(2L, JOHN_DOE_DTO)).isInstanceOf(AnnouncerNotFoundException.class);
-    }
-
-    @Test
-    public void getAnnouncer_ByExistingName_ReturnsAnnouncer() {
-        when(announcerRepository.findByName(ANNOUNCER_DTO.name())).thenReturn(Optional.of(ANNOUNCER));
-        when(announcerMapper.toDTO(ANNOUNCER)).thenReturn(ANNOUNCER_DTO);
-
-        Optional<AnnouncerDTO> sut = announcerService.findByName(ANNOUNCER_DTO.name());
-
-        assertThat(sut).isNotEmpty();
-        assertThat(sut.get()).isEqualTo(ANNOUNCER_DTO);
-    }
-
-    @Test
-    public void getAnnouncer_ByUnexistingName_ReturnsEmpty() {
-        when(announcerRepository.findByName(ANNOUNCER_DTO.name())).thenReturn(Optional.empty());
-
-        Optional<AnnouncerDTO> sut = announcerService.findByName(ANNOUNCER_DTO.name());
-
-        assertThat(sut).isEmpty();
-    }
-
-    @Test
-    public void getAnnouncer_ByExistingPhoneNumber_ReturnsAnnouncer() {
-        when(announcerRepository.findByPhoneNumber(ANNOUNCER_DTO.phoneNumber())).thenReturn(Optional.of(ANNOUNCER));
-        when(announcerMapper.toDTO(ANNOUNCER)).thenReturn(ANNOUNCER_DTO);
-
-        Optional<AnnouncerDTO> sut = announcerService.findByPhoneNumber(ANNOUNCER_DTO.phoneNumber());
-
-        assertThat(sut).isNotEmpty();
-        assertThat(sut.get()).isEqualTo(ANNOUNCER_DTO);
-    }
-
-    @Test
-    public void getAnnouncer_ByUnexistingPhoneNumber_ReturnsEmpty() {
-        when(announcerRepository.findByPhoneNumber(ANNOUNCER_DTO.phoneNumber())).thenReturn(Optional.empty());
-
-        Optional<AnnouncerDTO> sut = announcerService.findByPhoneNumber(ANNOUNCER_DTO.phoneNumber());
-
-        assertThat(sut).isEmpty();
+        assertThatThrownBy(() -> announcerService.update(2L, JOHN_DOE_DTO)).isInstanceOf(ResourceNotFoundException.class);
     }
 
     @Test
     public void checkIfAnnouncerExists_ByExistingName_ThrowsException() {
         when(announcerRepository.findByName(ANNOUNCER_DTO.name())).thenReturn(Optional.of(ANNOUNCER));
-        when(announcerMapper.toDTO(ANNOUNCER)).thenReturn(ANNOUNCER_DTO);
 
         assertThatCode(() -> announcerService.checkIfNameAlreadyExists(ANNOUNCER_DTO.name())).isInstanceOf(NameAlreadyExistsException.class);
     }
@@ -159,7 +111,6 @@ public class AnnouncerServiceTest {
     @Test
     public void checkIfAnnouncerExists_ByExistingPhoneNumber_ThrowsException() {
         when(announcerRepository.findByPhoneNumber(ANNOUNCER_DTO.phoneNumber())).thenReturn(Optional.of(ANNOUNCER));
-        when(announcerMapper.toDTO(ANNOUNCER)).thenReturn(ANNOUNCER_DTO);
 
         assertThatCode(() -> announcerService.checkIfPhoneNumberAlreadyExists(ANNOUNCER_DTO.phoneNumber()))
                 .isInstanceOf(PhoneNumberAlreadyExistsException.class);
@@ -204,7 +155,7 @@ public class AnnouncerServiceTest {
 
     @Test
     public void removeAnnouncer_WithUnexistingId_ThrowsException() {
-        assertThatCode(() -> announcerService.delete(1L)).isInstanceOf(AnnouncerNotFoundException.class);
+        assertThatCode(() -> announcerService.delete(1L)).isInstanceOf(ResourceNotFoundException.class);
     }
 
 }

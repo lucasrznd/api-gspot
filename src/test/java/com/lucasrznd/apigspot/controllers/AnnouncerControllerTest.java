@@ -2,9 +2,9 @@ package com.lucasrznd.apigspot.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lucasrznd.apigspot.dtos.AnnouncerDTO;
-import com.lucasrznd.apigspot.exceptions.announcer.AnnouncerNotFoundException;
 import com.lucasrznd.apigspot.exceptions.common.NameAlreadyExistsException;
 import com.lucasrznd.apigspot.exceptions.common.PhoneNumberAlreadyExistsException;
+import com.lucasrznd.apigspot.exceptions.common.ResourceNotFoundException;
 import com.lucasrznd.apigspot.services.AnnouncerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +78,7 @@ public class AnnouncerControllerTest {
     public void countAnnouncers_ReturnsAnnouncersQuantity() throws Exception {
         when(announcerService.count()).thenReturn(1L);
 
-        mockMvc.perform(get("/announcer/countAnnouncers"))
+        mockMvc.perform(get("/announcer/count"))
                 .andExpect(status().isOk()).andExpect(jsonPath("$").value(1L));
     }
 
@@ -93,10 +93,10 @@ public class AnnouncerControllerTest {
 
     @Test
     public void updateAnnouncer_WithUnexistingId_ReturnsNotFound() throws Exception {
-        doThrow(AnnouncerNotFoundException.class).when(announcerService).update(1L, ANNOUNCER_DTO);
+        doThrow(ResourceNotFoundException.class).when(announcerService).update(1L, ANNOUNCER_DTO);
 
         mockMvc.perform(put("/announcer/" + 1).content(objectMapper.writeValueAsString(ANNOUNCER_DTO)).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound()).andExpect(jsonPath("$").doesNotExist());
+                .andExpect(status().isNotFound()).andExpect(jsonPath("$.status").value("404"));
     }
 
     @Test
