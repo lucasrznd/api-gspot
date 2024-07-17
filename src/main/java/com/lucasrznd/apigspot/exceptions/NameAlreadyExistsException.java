@@ -1,4 +1,4 @@
-package com.lucasrznd.apigspot.exceptions.common;
+package com.lucasrznd.apigspot.exceptions;
 
 public class NameAlreadyExistsException extends RuntimeException {
 

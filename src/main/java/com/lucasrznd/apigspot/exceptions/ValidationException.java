@@ -1,4 +1,4 @@
-package com.lucasrznd.apigspot.exceptions.common;
+package com.lucasrznd.apigspot.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

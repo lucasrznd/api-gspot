@@ -1,6 +1,10 @@
 package com.lucasrznd.apigspot.handlers;
 
-import com.lucasrznd.apigspot.exceptions.common.*;
+import com.lucasrznd.apigspot.exceptions.NameAlreadyExistsException;
+import com.lucasrznd.apigspot.exceptions.PhoneNumberAlreadyExistsException;
+import com.lucasrznd.apigspot.exceptions.ResourceNotFoundException;
+import com.lucasrznd.apigspot.exceptions.StandardError;
+import com.lucasrznd.apigspot.exceptions.ValidationException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;

@@ -2,9 +2,9 @@ package com.lucasrznd.apigspot.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lucasrznd.apigspot.dtos.request.CompanyDTO;
-import com.lucasrznd.apigspot.exceptions.common.NameAlreadyExistsException;
-import com.lucasrznd.apigspot.exceptions.common.PhoneNumberAlreadyExistsException;
-import com.lucasrznd.apigspot.exceptions.common.ResourceNotFoundException;
+import com.lucasrznd.apigspot.exceptions.NameAlreadyExistsException;
+import com.lucasrznd.apigspot.exceptions.PhoneNumberAlreadyExistsException;
+import com.lucasrznd.apigspot.exceptions.ResourceNotFoundException;
 import com.lucasrznd.apigspot.services.CompanyService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

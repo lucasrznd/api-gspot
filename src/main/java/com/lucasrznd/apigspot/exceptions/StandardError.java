@@ -1,4 +1,4 @@
-package com.lucasrznd.apigspot.exceptions.common;
+package com.lucasrznd.apigspot.exceptions;
 
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;

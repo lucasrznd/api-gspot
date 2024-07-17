@@ -3,7 +3,7 @@ package com.lucasrznd.apigspot.services;
 import com.lucasrznd.apigspot.dtos.mappers.SpotMapper;
 import com.lucasrznd.apigspot.dtos.request.SpotDTO;
 import com.lucasrznd.apigspot.dtos.response.SpotResponse;
-import com.lucasrznd.apigspot.exceptions.common.ResourceNotFoundException;
+import com.lucasrznd.apigspot.exceptions.ResourceNotFoundException;
 import com.lucasrznd.apigspot.models.SpotModel;
 import com.lucasrznd.apigspot.repositories.SpotRepository;
 import com.lucasrznd.apigspot.strategy.SpotPrice;

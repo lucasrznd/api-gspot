@@ -2,9 +2,9 @@ package com.lucasrznd.apigspot.services;
 
 import com.lucasrznd.apigspot.dtos.request.AnnouncerDTO;
 import com.lucasrznd.apigspot.dtos.mappers.AnnouncerMapper;
-import com.lucasrznd.apigspot.exceptions.common.NameAlreadyExistsException;
-import com.lucasrznd.apigspot.exceptions.common.PhoneNumberAlreadyExistsException;
-import com.lucasrznd.apigspot.exceptions.common.ResourceNotFoundException;
+import com.lucasrznd.apigspot.exceptions.NameAlreadyExistsException;
+import com.lucasrznd.apigspot.exceptions.PhoneNumberAlreadyExistsException;
+import com.lucasrznd.apigspot.exceptions.ResourceNotFoundException;
 import com.lucasrznd.apigspot.models.AnnouncerModel;
 import com.lucasrznd.apigspot.repositories.AnnouncerRepository;
 import org.junit.jupiter.api.Test;
