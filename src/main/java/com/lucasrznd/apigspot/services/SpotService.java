@@ -42,7 +42,7 @@ public class SpotService {
         return spotRepository.getAmountRaisedMonth();
     }
 
-    public List<SpotDTO> getLatestSpots() {
+    public List<SpotDTO> findLatestSpots() {
         return spotRepository.findLatestSpots().stream().map(spotMapper::toDTO).toList();
     }
 

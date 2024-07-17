@@ -2,6 +2,7 @@ package com.lucasrznd.apigspot.controllers;
 
 import com.lucasrznd.apigspot.dtos.SpotDTO;
 import com.lucasrznd.apigspot.services.SpotService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,8 +52,8 @@ public class SpotController {
 
     @GetMapping("/latest")
     @ResponseStatus(HttpStatus.OK)
-    public List<SpotDTO> getLatestSpots() {
-        return spotService.getLatestSpots();
+    public List<SpotDTO> findLatestSpots() {
+        return spotService.findLatestSpots();
     }
 
     @GetMapping("/search")
@@ -64,13 +65,13 @@ public class SpotController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SpotDTO save(@RequestBody SpotDTO spotDTO) {
+    public SpotDTO save(@RequestBody @Valid SpotDTO spotDTO) {
         return spotService.save(spotDTO);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public SpotDTO update(@PathVariable Long id, @RequestBody SpotDTO spotDTO) {
+    public SpotDTO update(@PathVariable Long id, @RequestBody @Valid SpotDTO spotDTO) {
         return spotService.update(id, spotDTO);
     }
 

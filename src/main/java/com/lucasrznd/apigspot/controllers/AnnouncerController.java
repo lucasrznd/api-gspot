@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("/announcer")
 public class AnnouncerController {
 
-    private AnnouncerService announcerService;
+    private final AnnouncerService announcerService;
 
     public AnnouncerController(AnnouncerService announcerService) {
         this.announcerService = announcerService;
@@ -32,13 +32,13 @@ public class AnnouncerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AnnouncerDTO save(@Valid @RequestBody AnnouncerDTO announcerDTO) {
+    public AnnouncerDTO save(@RequestBody @Valid AnnouncerDTO announcerDTO) {
         return announcerService.save(announcerDTO);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public AnnouncerDTO update(@PathVariable Long id, @RequestBody AnnouncerDTO announcerDTO) {
+    public AnnouncerDTO update(@PathVariable Long id, @RequestBody @Valid AnnouncerDTO announcerDTO) {
         return announcerService.update(id, announcerDTO);
     }
 
