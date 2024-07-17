@@ -1,14 +1,14 @@
 package com.lucasrznd.apigspot.repositories;
 
-import com.lucasrznd.apigspot.models.TopMonthlyCompany;
+import com.lucasrznd.apigspot.models.TopCompanyOfTheMonth;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface TopMonthlyCompanyRepository extends JpaRepository<TopMonthlyCompany, String> {
+public interface TopCompanyRepository extends JpaRepository<TopCompanyOfTheMonth, String> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM top_monthly_company")
-    List<TopMonthlyCompany> findTopMonthlyCompanies();
+    List<TopCompanyOfTheMonth> findTopCompaniesOfTheMonth();
 
 }
