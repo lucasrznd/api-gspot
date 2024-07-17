@@ -1,21 +1,20 @@
-package com.lucasrznd.apigspot.dtos;
+package com.lucasrznd.apigspot.dtos.request;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record SpotDTO(Long id,
-                      @NotBlank(message = "Title can't be blank.")
+                      @NotEmpty(message = "Title can't be blank.")
                       String title,
                       @NotNull(message = "Company can't be null.")
                       CompanyDTO company,
                       @NotNull(message = "Announcer can't be null.")
                       AnnouncerDTO announcer,
                       LocalDate date,
-                      @NotNull(message = "Duration can't be blank.")
+                      @NotNull(message = "Duration can't be null.")
                       Double duration,
                       boolean activeContract,
-                      BigDecimal price) {
+                      Double price) {
 }

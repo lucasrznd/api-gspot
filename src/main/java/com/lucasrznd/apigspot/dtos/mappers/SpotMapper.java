@@ -1,6 +1,11 @@
 package com.lucasrznd.apigspot.dtos.mappers;
 
-import com.lucasrznd.apigspot.dtos.SpotDTO;
+import com.lucasrznd.apigspot.dtos.request.AnnouncerDTO;
+import com.lucasrznd.apigspot.dtos.request.CompanyDTO;
+import com.lucasrznd.apigspot.dtos.request.SpotDTO;
+import com.lucasrznd.apigspot.dtos.response.SpotResponse;
+import com.lucasrznd.apigspot.models.AnnouncerModel;
+import com.lucasrznd.apigspot.models.CompanyModel;
 import com.lucasrznd.apigspot.models.SpotModel;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +29,16 @@ public class SpotMapper {
                 spot.getDate(), spot.getDuration(), spot.isActiveContract(), spot.getPrice());
     }
 
+    public SpotResponse toResponse(SpotModel spot) {
+        if (spot == null) {
+            return null;
+        }
+
+        return new SpotResponse(spot.getId(), spot.getTitle(), spot.getCompany().getName(),
+                spot.getAnnouncer().getName(), spot.getDate(), spot.getDuration(), spot.isActiveContract(),
+                spot.getPrice());
+    }
+
     public SpotModel toModel(SpotDTO spotDTO) {
         if (spotDTO == null) {
             return null;
@@ -40,6 +55,14 @@ public class SpotMapper {
         spotModel.setPrice(spotDTO.price());
 
         return spotModel;
+    }
+
+    public CompanyModel companyToModel(CompanyDTO company) {
+        return companyMapper.toModel(company);
+    }
+
+    public AnnouncerModel announcerToModel(AnnouncerDTO announcer) {
+        return announcerMapper.toModel(announcer);
     }
 
 }

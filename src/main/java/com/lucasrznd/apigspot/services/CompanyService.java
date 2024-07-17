@@ -1,6 +1,6 @@
 package com.lucasrznd.apigspot.services;
 
-import com.lucasrznd.apigspot.dtos.CompanyDTO;
+import com.lucasrznd.apigspot.dtos.request.CompanyDTO;
 import com.lucasrznd.apigspot.dtos.mappers.CompanyMapper;
 import com.lucasrznd.apigspot.exceptions.common.NameAlreadyExistsException;
 import com.lucasrznd.apigspot.exceptions.common.PhoneNumberAlreadyExistsException;

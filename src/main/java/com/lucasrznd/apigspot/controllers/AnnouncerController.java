@@ -1,6 +1,6 @@
 package com.lucasrznd.apigspot.controllers;
 
-import com.lucasrznd.apigspot.dtos.AnnouncerDTO;
+import com.lucasrznd.apigspot.dtos.request.AnnouncerDTO;
 import com.lucasrznd.apigspot.services.AnnouncerService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

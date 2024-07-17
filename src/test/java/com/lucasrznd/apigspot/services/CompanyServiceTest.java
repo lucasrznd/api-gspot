@@ -1,11 +1,10 @@
 package com.lucasrznd.apigspot.services;
 
-import com.lucasrznd.apigspot.dtos.CompanyDTO;
+import com.lucasrznd.apigspot.dtos.request.CompanyDTO;
 import com.lucasrznd.apigspot.dtos.mappers.CompanyMapper;
 import com.lucasrznd.apigspot.exceptions.common.NameAlreadyExistsException;
 import com.lucasrznd.apigspot.exceptions.common.PhoneNumberAlreadyExistsException;
 import com.lucasrznd.apigspot.exceptions.common.ResourceNotFoundException;
-import com.lucasrznd.apigspot.exceptions.company.CompanyNotFoundException;
 import com.lucasrznd.apigspot.models.CompanyModel;
 import com.lucasrznd.apigspot.repositories.CompanyRepository;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,6 @@
 package com.lucasrznd.apigspot.common;
 
-import com.lucasrznd.apigspot.dtos.AnnouncerDTO;
+import com.lucasrznd.apigspot.dtos.request.AnnouncerDTO;
 import com.lucasrznd.apigspot.models.AnnouncerModel;
 
 import java.util.Arrays;

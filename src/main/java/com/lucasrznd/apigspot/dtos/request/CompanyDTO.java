@@ -1,4 +1,4 @@
-package com.lucasrznd.apigspot.dtos;
+package com.lucasrznd.apigspot.dtos.request;
 
 import jakarta.validation.constraints.NotBlank;
 

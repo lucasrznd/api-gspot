@@ -1,6 +1,6 @@
 package com.lucasrznd.apigspot.dtos.mappers;
 
-import com.lucasrznd.apigspot.dtos.AnnouncerDTO;
+import com.lucasrznd.apigspot.dtos.request.AnnouncerDTO;
 import com.lucasrznd.apigspot.models.AnnouncerModel;
 import org.springframework.stereotype.Component;
 

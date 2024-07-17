@@ -72,7 +72,7 @@ public class SpotRepositoryTest {
         announcerRepository.save(ANNOUNCER);
 
         SpotModel spotWithInvalidTitle = new SpotModel(null, "", COMPANY,
-                ANNOUNCER, LocalDate.now(), 0.45, true, new BigDecimal("20.00"));
+                ANNOUNCER, LocalDate.now(), 0.45, true, 20.00);
 
         assertThatThrownBy(() -> spotRepository.save(spotWithInvalidTitle)).isInstanceOf(RuntimeException.class);
     }
@@ -82,7 +82,7 @@ public class SpotRepositoryTest {
         announcerRepository.save(ANNOUNCER);
 
         SpotModel spotWithInvalidCompany = new SpotModel(null, "", COMPANY,
-                ANNOUNCER, LocalDate.now(), 0.45, true, new BigDecimal("20.00"));
+                ANNOUNCER, LocalDate.now(), 0.45, true, 20.00);
 
         assertThatThrownBy(() -> spotRepository.save(spotWithInvalidCompany)).isInstanceOf(RuntimeException.class);
     }
@@ -92,7 +92,7 @@ public class SpotRepositoryTest {
         companyRepository.save(COMPANY);
 
         SpotModel spotWithInvalidAnnouncer = new SpotModel(null, "", COMPANY,
-                ANNOUNCER, LocalDate.now(), 0.45, true, new BigDecimal("20.00"));
+                ANNOUNCER, LocalDate.now(), 0.45, true, 20.00);
 
         assertThatThrownBy(() -> spotRepository.save(spotWithInvalidAnnouncer)).isInstanceOf(RuntimeException.class);
     }
@@ -103,7 +103,7 @@ public class SpotRepositoryTest {
         announcerRepository.save(ANNOUNCER);
 
         SpotModel spotWithInvalidDate = new SpotModel(null, "", COMPANY,
-                ANNOUNCER, null, 0.45, true, new BigDecimal("20.00"));
+                ANNOUNCER, null, 0.45, true, 20.00);
 
         assertThatThrownBy(() -> spotRepository.save(spotWithInvalidDate)).isInstanceOf(RuntimeException.class);
     }
@@ -114,7 +114,7 @@ public class SpotRepositoryTest {
         announcerRepository.save(ANNOUNCER);
 
         SpotModel spotWithInvalidDuration = new SpotModel(null, "", COMPANY,
-                ANNOUNCER, LocalDate.now(), null, true, new BigDecimal("20.00"));
+                ANNOUNCER, LocalDate.now(), null, true, 20.00);
 
         assertThatThrownBy(() -> spotRepository.save(spotWithInvalidDuration)).isInstanceOf(RuntimeException.class);
     }
@@ -137,7 +137,7 @@ public class SpotRepositoryTest {
 
         testEntityManager.persist(SPOT);
 
-        BigDecimal amountRaised = spotRepository.getAmountRaised();
+        Double amountRaised = spotRepository.getAmountRaised();
 
         assertThat(amountRaised).isEqualTo(new BigDecimal("20.00"));
     }

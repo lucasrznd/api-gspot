@@ -1,6 +1,6 @@
 package com.lucasrznd.apigspot.dtos.mappers;
 
-import com.lucasrznd.apigspot.dtos.CompanyDTO;
+import com.lucasrznd.apigspot.dtos.request.CompanyDTO;
 import com.lucasrznd.apigspot.models.CompanyModel;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,6 @@
 package com.lucasrznd.apigspot.dtos.mappers;
 
-import com.lucasrznd.apigspot.dtos.TopMonthlyAnnouncerDTO;
+import com.lucasrznd.apigspot.dtos.request.TopMonthlyAnnouncerDTO;
 import com.lucasrznd.apigspot.models.TopMonthlyAnnouncer;
 import org.springframework.stereotype.Component;
 

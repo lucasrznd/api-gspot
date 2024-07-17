@@ -1,6 +1,6 @@
 package com.lucasrznd.apigspot.services;
 
-import com.lucasrznd.apigspot.dtos.TopMonthlyCompanyDTO;
+import com.lucasrznd.apigspot.dtos.request.TopMonthlyCompanyDTO;
 import com.lucasrznd.apigspot.dtos.mappers.TopMonthlyCompanyMapper;
 import com.lucasrznd.apigspot.repositories.TopMonthlyCompanyRepository;
 import org.springframework.stereotype.Service;

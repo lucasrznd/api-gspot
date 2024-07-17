@@ -1,7 +1,7 @@
 package com.lucasrznd.apigspot.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lucasrznd.apigspot.dtos.AnnouncerDTO;
+import com.lucasrznd.apigspot.dtos.request.AnnouncerDTO;
 import com.lucasrznd.apigspot.exceptions.common.NameAlreadyExistsException;
 import com.lucasrznd.apigspot.exceptions.common.PhoneNumberAlreadyExistsException;
 import com.lucasrznd.apigspot.exceptions.common.ResourceNotFoundException;

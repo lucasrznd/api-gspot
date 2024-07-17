@@ -1,6 +1,6 @@
 package com.lucasrznd.apigspot.controllers;
 
-import com.lucasrznd.apigspot.dtos.TopMonthlyCompanyDTO;
+import com.lucasrznd.apigspot.dtos.request.TopMonthlyCompanyDTO;
 import com.lucasrznd.apigspot.services.TopMonthlyCompanyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,6 +1,6 @@
 package com.lucasrznd.apigspot.common;
 
-import com.lucasrznd.apigspot.dtos.CompanyDTO;
+import com.lucasrznd.apigspot.dtos.request.CompanyDTO;
 import com.lucasrznd.apigspot.models.CompanyModel;
 
 import java.util.Arrays;

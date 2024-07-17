@@ -1,6 +1,6 @@
 package com.lucasrznd.apigspot.services;
 
-import com.lucasrznd.apigspot.dtos.AnnouncerDTO;
+import com.lucasrznd.apigspot.dtos.request.AnnouncerDTO;
 import com.lucasrznd.apigspot.dtos.mappers.AnnouncerMapper;
 import com.lucasrznd.apigspot.exceptions.common.NameAlreadyExistsException;
 import com.lucasrznd.apigspot.exceptions.common.PhoneNumberAlreadyExistsException;
