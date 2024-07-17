@@ -4,79 +4,65 @@ import com.lucasrznd.apigspot.dtos.CompanyDTO;
 import com.lucasrznd.apigspot.dtos.mappers.CompanyMapper;
 import com.lucasrznd.apigspot.exceptions.common.NameAlreadyExistsException;
 import com.lucasrznd.apigspot.exceptions.common.PhoneNumberAlreadyExistsException;
-import com.lucasrznd.apigspot.exceptions.company.CompanyNotFoundException;
+import com.lucasrznd.apigspot.exceptions.common.ResourceNotFoundException;
 import com.lucasrznd.apigspot.repositories.CompanyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CompanyService {
 
-    private final CompanyRepository companyRepository;
-    private final CompanyMapper companyMapper;
+    private final CompanyRepository repository;
+    private final CompanyMapper mapper;
 
-    public CompanyService(CompanyRepository companyRepository, CompanyMapper companyMapper) {
-        this.companyRepository = companyRepository;
-        this.companyMapper = companyMapper;
+    public CompanyService(CompanyRepository repository, CompanyMapper mapper) {
+        this.repository = repository;
+        this.mapper = mapper;
     }
 
     public List<CompanyDTO> findAll() {
-        return companyRepository.findAll().stream().map(companyMapper::toDTO).toList();
+        return repository.findAll().stream().map(mapper::toDTO).toList();
     }
 
     public Long count() {
-        return companyRepository.count();
+        return repository.count();
     }
 
     public CompanyDTO save(CompanyDTO companyDTO) {
         checkIfNameAlreadyExists(companyDTO.name());
         checkIfPhoneNumberAlreadyExists(companyDTO.phoneNumber());
 
-        return companyMapper.toDTO(companyRepository.save(companyMapper.toModel(companyDTO)));
+        return mapper.toDTO(repository.save(mapper.toModel(companyDTO)));
     }
 
     public CompanyDTO update(Long id, CompanyDTO companyDTO) {
-        return companyRepository.findById(id)
+        return repository.findById(id)
                 .map(companyFound -> {
                     companyFound.setName(companyDTO.name());
                     companyFound.setPhoneNumber(companyDTO.phoneNumber());
                     companyFound.setUrlImage(companyDTO.urlImage());
-                    return companyMapper.toDTO(companyRepository.save(companyFound));
-                }).orElseThrow(() -> new CompanyNotFoundException("Announcer not found."));
+                    return mapper.toDTO(repository.save(companyFound));
+                }).orElseThrow(() -> new ResourceNotFoundException("Object not found. Id: " + id + ", Type: " + CompanyDTO.class.getSimpleName()));
     }
 
     public void delete(Long id) {
-        companyRepository.delete(companyRepository.findById(id).orElseThrow(() -> new CompanyNotFoundException("Company not found.")));
+        repository.delete(repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Object not found. Id: " + id + ", Type: " + CompanyDTO.class.getSimpleName())));
     }
 
     public void checkIfNameAlreadyExists(String name) {
-        Optional<CompanyDTO> companyFounded = findByName(name);
-
-        if (companyFounded.isPresent()) {
-            throw new NameAlreadyExistsException("Name already exists.");
-        }
+        repository.findByName(name)
+                .ifPresent(company -> {
+                    throw new NameAlreadyExistsException("Name already exists. Name: " + name + ", Type: " + String.class.getSimpleName());
+                });
     }
 
     public void checkIfPhoneNumberAlreadyExists(String phoneNumber) {
-        Optional<CompanyDTO> companyFounded = findByPhoneNumber(phoneNumber);
-
-        if (companyFounded.isPresent()) {
-            throw new PhoneNumberAlreadyExistsException("Phone Number already exists.");
-        }
-    }
-
-    public Optional<CompanyDTO> findByName(String name) {
-        return companyRepository.findByName(name).isPresent()
-                ? Optional.of(companyMapper.toDTO(companyRepository.findByName(name).get()))
-                : Optional.empty();
-    }
-
-    public Optional<CompanyDTO> findByPhoneNumber(String phoneNumber) {
-        return companyRepository.findByPhoneNumber(phoneNumber).isPresent()
-                ? Optional.of(companyMapper.toDTO(companyRepository.findByPhoneNumber(phoneNumber).get()))
-                : Optional.empty();
+        repository.findByPhoneNumber(phoneNumber)
+                .ifPresent(company -> {
+                    throw new PhoneNumberAlreadyExistsException("Phone Number already exists. Phone Number: " + phoneNumber + ", Type: " + String.class.getSimpleName());
+                });
     }
 
 }

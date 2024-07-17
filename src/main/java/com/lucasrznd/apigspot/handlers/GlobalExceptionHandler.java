@@ -81,7 +81,7 @@ public class GlobalExceptionHandler {
                 .path(request.getRequestURI()).build();
 
         for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
-            error.addError(fieldError.getObjectName(), fieldError.getDefaultMessage());
+            error.addError(fieldError.getField(), fieldError.getDefaultMessage());
         }
 
         return ResponseEntity.badRequest().body(error);
