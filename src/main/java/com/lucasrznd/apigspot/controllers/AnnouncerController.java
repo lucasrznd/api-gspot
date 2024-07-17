@@ -3,10 +3,12 @@ package com.lucasrznd.apigspot.controllers;
 import com.lucasrznd.apigspot.dtos.request.AnnouncerDTO;
 import com.lucasrznd.apigspot.services.AnnouncerService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController()
 @RequestMapping("/announcer")
@@ -19,33 +21,29 @@ public class AnnouncerController {
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<AnnouncerDTO> findAll() {
-        return announcerService.findAll();
+    public ResponseEntity<List<AnnouncerDTO>> findAll() {
+        return ResponseEntity.ok().body(announcerService.findAll());
     }
 
     @GetMapping("/count")
-    @ResponseStatus(HttpStatus.OK)
-    public Long count() {
-        return announcerService.count();
+    public ResponseEntity<Long> count() {
+        return ResponseEntity.ok().body(announcerService.count());
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public AnnouncerDTO save(@RequestBody @Valid AnnouncerDTO announcerDTO) {
-        return announcerService.save(announcerDTO);
+    public ResponseEntity<AnnouncerDTO> save(@RequestBody @Valid AnnouncerDTO announcerDTO) {
+        return ResponseEntity.status(CREATED).body(announcerService.save(announcerDTO));
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public AnnouncerDTO update(@PathVariable Long id, @RequestBody @Valid AnnouncerDTO announcerDTO) {
-        return announcerService.update(id, announcerDTO);
+    public ResponseEntity<AnnouncerDTO> update(@PathVariable Long id, @RequestBody @Valid AnnouncerDTO announcerDTO) {
+        return ResponseEntity.ok().body(announcerService.update(id, announcerDTO));
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         announcerService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
