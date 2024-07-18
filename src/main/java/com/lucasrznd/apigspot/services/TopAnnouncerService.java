@@ -15,8 +15,8 @@ public class TopAnnouncerService {
     private final TopAnnouncerRepository service;
     private final TopAnnouncerMapper mapper;
 
-    public List<TopAnnouncerResponse> findTopMonthlyAnnouncers() {
-        return service.findTopAnnouncersOfTheMonth()
+    public List<TopAnnouncerResponse> findTopAnnouncersOnCurrentMonth() {
+        return service.findTopAnnouncersOnCurrentMonth()
                 .stream().map(mapper::toDTO).toList();
     }
 

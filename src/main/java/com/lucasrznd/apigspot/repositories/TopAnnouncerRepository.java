@@ -9,6 +9,6 @@ import java.util.List;
 public interface TopAnnouncerRepository extends JpaRepository<TopAnnouncerOfTheMonth, String> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM top_monthly_announcer")
-    List<TopAnnouncerOfTheMonth> findTopAnnouncersOfTheMonth();
+    List<TopAnnouncerOfTheMonth> findTopAnnouncersOnCurrentMonth();
 
 }
