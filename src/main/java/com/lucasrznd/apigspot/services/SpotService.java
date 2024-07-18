@@ -30,13 +30,13 @@ public class SpotService {
         return repository.count();
     }
 
-    public Double getAmountRaised() {
+    public Double getTotalAmountRaised() {
         Double var = repository.getAmountRaised();
 
         return var == null ? 0D : var;
     }
 
-    public BigDecimal getAmountRaisedMonth() {
+    public BigDecimal getAmountRaisedCurrentMonth() {
         return repository.getAmountRaisedMonth();
     }
 
@@ -44,9 +44,9 @@ public class SpotService {
         return repository.findLatestSpots().stream().map(mapper::toResponse).toList();
     }
 
-    public List<SpotDTO> getByDateRangeAnnouncerAndCompany(final LocalDate initialDate, final LocalDate finalDate, final String companyName, final String announcerName) {
+    public List<SpotResponse> getByDateRangeAnnouncerAndCompany(final LocalDate initialDate, final LocalDate finalDate, final String companyName, final String announcerName) {
         return repository.findByDateRangeAnnouncerAndCompany(initialDate, finalDate, companyName, announcerName)
-                .stream().map(mapper::toDTO).toList();
+                .stream().map(mapper::toResponse).toList();
     }
 
     public Double calculateSpotPrice(Double duration, boolean isActiveContract) {
