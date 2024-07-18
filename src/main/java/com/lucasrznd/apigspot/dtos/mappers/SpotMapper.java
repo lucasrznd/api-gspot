@@ -34,8 +34,8 @@ public class SpotMapper {
             return null;
         }
 
-        return new SpotResponse(spot.getId(), spot.getTitle(), spot.getCompany().getName(),
-                spot.getAnnouncer().getName(), spot.getDate(), spot.getDuration(), spot.isActiveContract(),
+        return new SpotResponse(spot.getId(), spot.getTitle(), spot.getCompany().getName(), spot.getCompany().getUrlImage(),
+                spot.getAnnouncer().getName(), spot.getAnnouncer().getUrlImage(), spot.getDate(), spot.getDuration(), spot.isActiveContract(),
                 spot.getPrice());
     }
 
