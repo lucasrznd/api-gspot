@@ -15,8 +15,8 @@ public class TopCompanyService {
     private final TopCompanyRepository topCompanyRepository;
     private final TopCompanyMapper mapper;
 
-    public List<TopCompanyResponse> findTopMonthlyCompanies() {
-        return topCompanyRepository.findTopCompaniesOfTheMonth()
+    public List<TopCompanyResponse> findTopCompaniesOnCurrentMonth() {
+        return topCompanyRepository.findTopCompaniesOnCurrentMonth()
                 .stream().map(mapper::toDTO).toList();
     }
 

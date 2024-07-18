@@ -1,6 +1,6 @@
 package com.lucasrznd.apigspot.controllers;
 
-import com.lucasrznd.apigspot.dtos.response.TopAnnouncerResponse;
+import com.lucasrznd.apigspot.dtos.response.TopCompanyResponse;
 import com.lucasrznd.apigspot.exceptions.StandardError;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -17,18 +17,18 @@ import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@Tag(name = "TopAnnouncerController", description = "Controller responsible for returning a list of top announcers in current month")
-@RequestMapping("/top/announcers")
-public interface TopAnnouncerController {
+@Tag(name = "TopCompanyController", description = "Controller responsible for returning a list of top companies in current month")
+@RequestMapping("/top/companies")
+public interface TopCompanyController {
 
-    @Operation(summary = "Find all top announcers")
+    @Operation(summary = "Find all top companies")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Announcers found", content = @Content(
-                    mediaType = APPLICATION_JSON_VALUE, array = @ArraySchema(schema = @Schema(implementation = TopAnnouncerResponse.class)))),
+            @ApiResponse(responseCode = "200", description = "Companies found", content = @Content(
+                    mediaType = APPLICATION_JSON_VALUE, array = @ArraySchema(schema = @Schema(implementation = TopCompanyResponse.class)))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(
                     mediaType = APPLICATION_JSON_VALUE, array = @ArraySchema(schema = @Schema(implementation = StandardError.class))))
     })
     @GetMapping
-    ResponseEntity<List<TopAnnouncerResponse>> findTopAnnouncersOnCurrentMonth();
+    ResponseEntity<List<TopCompanyResponse>> findTopCompaniesOnCurrentMonth();
 
 }

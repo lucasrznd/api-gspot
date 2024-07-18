@@ -9,6 +9,6 @@ import java.util.List;
 public interface TopCompanyRepository extends JpaRepository<TopCompanyOfTheMonth, String> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM top_monthly_company")
-    List<TopCompanyOfTheMonth> findTopCompaniesOfTheMonth();
+    List<TopCompanyOfTheMonth> findTopCompaniesOnCurrentMonth();
 
 }
