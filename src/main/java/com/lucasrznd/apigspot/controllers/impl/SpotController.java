@@ -1,4 +1,4 @@
-package com.lucasrznd.apigspot.controllers;
+package com.lucasrznd.apigspot.controllers.impl;
 
 import com.lucasrznd.apigspot.dtos.request.SpotDTO;
 import com.lucasrznd.apigspot.dtos.response.SpotResponse;

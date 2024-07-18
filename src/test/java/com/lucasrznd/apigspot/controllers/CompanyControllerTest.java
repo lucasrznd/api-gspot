@@ -1,6 +1,7 @@
 package com.lucasrznd.apigspot.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lucasrznd.apigspot.controllers.impl.CompanyController;
 import com.lucasrznd.apigspot.dtos.request.CompanyDTO;
 import com.lucasrznd.apigspot.exceptions.NameAlreadyExistsException;
 import com.lucasrznd.apigspot.exceptions.PhoneNumberAlreadyExistsException;
