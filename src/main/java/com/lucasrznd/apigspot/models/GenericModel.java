@@ -25,7 +25,7 @@ public abstract class GenericModel implements Serializable {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "url_image")
+    @Column(name = "url_image", columnDefinition = "TEXT")
     private String urlImage;
 
 }
