@@ -43,7 +43,7 @@ public class SpotService {
         return repository.findLatestSpots().stream().map(mapper::toResponse).toList();
     }
 
-    public List<SpotResponse> getByDateRangeAnnouncerAndCompany(final LocalDate initialDate, final LocalDate finalDate, final String companyName, final String announcerName) {
+    public List<SpotResponse> findByDateRangeAnnouncerAndCompany(final LocalDate initialDate, final LocalDate finalDate, final String companyName, final String announcerName) {
         return repository.findByDateRangeAnnouncerAndCompany(initialDate, finalDate, companyName, announcerName)
                 .stream().map(mapper::toResponse).toList();
     }
