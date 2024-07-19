@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class SpotControllerImpl implements SpotController {
     }
 
     @Override
-    public ResponseEntity<BigDecimal> getAmountRaisedCurrentMonth() {
+    public ResponseEntity<Double> getAmountRaisedCurrentMonth() {
         return ResponseEntity.ok().body(service.getAmountRaisedCurrentMonth());
     }
 
@@ -53,7 +52,7 @@ public class SpotControllerImpl implements SpotController {
     @Override
     public ResponseEntity<List<SpotResponse>> searchSpot(LocalDate initialDate, LocalDate finalDate,
                                                     String companyName, String announcerName) {
-        return ResponseEntity.ok().body(service.getByDateRangeAnnouncerAndCompany(initialDate, finalDate, companyName, announcerName));
+        return ResponseEntity.ok().body(service.findByDateRangeAnnouncerAndCompany(initialDate, finalDate, companyName, announcerName));
     }
 
     @Override

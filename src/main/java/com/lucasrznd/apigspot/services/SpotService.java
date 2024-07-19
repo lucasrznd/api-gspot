@@ -10,7 +10,6 @@ import com.lucasrznd.apigspot.strategy.SpotPrice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class SpotService {
         return var == null ? 0D : var;
     }
 
-    public BigDecimal getAmountRaisedCurrentMonth() {
+    public Double getAmountRaisedCurrentMonth() {
         return repository.getAmountRaisedMonth();
     }
 

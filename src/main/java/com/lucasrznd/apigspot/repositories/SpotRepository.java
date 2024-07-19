@@ -4,7 +4,6 @@ import com.lucasrznd.apigspot.models.SpotModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,7 +13,7 @@ public interface SpotRepository extends JpaRepository<SpotModel, Long> {
     Double getAmountRaised();
 
     @Query(nativeQuery = true, value = "SELECT * FROM amount_raised_month")
-    BigDecimal getAmountRaisedMonth();
+    Double getAmountRaisedMonth();
 
     @Query("SELECT s FROM SpotModel s ORDER BY s.date DESC LIMIT 5")
     List<SpotModel> findLatestSpots();

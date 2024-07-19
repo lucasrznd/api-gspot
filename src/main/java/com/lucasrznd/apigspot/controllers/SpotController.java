@@ -75,7 +75,7 @@ public interface SpotController {
                     mediaType = APPLICATION_JSON_VALUE, array = @ArraySchema(schema = @Schema(implementation = StandardError.class))))
     })
     @GetMapping("amount-raised-month")
-    ResponseEntity<BigDecimal> getAmountRaisedCurrentMonth();
+    ResponseEntity<Double> getAmountRaisedCurrentMonth();
 
     @Operation(summary = "Calculate spot price based on duration and active contract")
     @ApiResponses(value = {
