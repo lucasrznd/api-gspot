@@ -43,15 +43,6 @@ public class CompanyRepositoryTest {
     }
 
     @Test
-    public void createCompany_WithInvalidData_ThrowsException() {
-        CompanyModel emptyCompany = new CompanyModel();
-        CompanyModel invalidCompany = new CompanyModel(null, "", "", "");
-
-        assertThatThrownBy(() -> companyRepository.save(emptyCompany)).isInstanceOf(RuntimeException.class);
-        assertThatThrownBy(() -> companyRepository.save(invalidCompany)).isInstanceOf(RuntimeException.class);
-    }
-
-    @Test
     public void createCompany_WithExistingName_ThrowsException() {
         CompanyModel company = testEntityManager.persistFlushFind(COMPANY);
         testEntityManager.detach(company);

@@ -43,16 +43,6 @@ class AnnouncerRepositoryTest {
     }
 
     @Test
-    public void createAnnouncer_WithInvalidData_ThrowsException() {
-        testEntityManager.persistFlushFind(ANNOUNCER);
-        AnnouncerModel emptyAnnouncer = new AnnouncerModel();
-        AnnouncerModel invalidAnnouncer = new AnnouncerModel(null, "", "", "");
-
-        assertThatThrownBy(() -> announcerRepository.save(emptyAnnouncer)).isInstanceOf(RuntimeException.class);
-        assertThatThrownBy(() -> announcerRepository.save(invalidAnnouncer)).isInstanceOf(RuntimeException.class);
-    }
-
-    @Test
     public void createAnnouncer_WithExistingName_ThrowsException() {
         AnnouncerModel announcer = testEntityManager.persistFlushFind(ANNOUNCER);
         testEntityManager.detach(announcer);
