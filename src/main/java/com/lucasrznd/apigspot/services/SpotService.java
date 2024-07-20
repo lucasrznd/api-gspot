@@ -30,13 +30,11 @@ public class SpotService {
     }
 
     public Double getTotalAmountRaised() {
-        Double var = repository.getAmountRaised();
-
-        return var == null ? 0D : var;
+        return repository.getAmountRaised() == null ? 0D : repository.getAmountRaised();
     }
 
     public Double getAmountRaisedCurrentMonth() {
-        return repository.getAmountRaisedMonth();
+        return repository.getAmountRaisedMonth() == null ? 0D : repository.getAmountRaisedMonth();
     }
 
     public List<SpotResponse> findLatestSpots() {
