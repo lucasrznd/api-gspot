@@ -66,4 +66,13 @@ public class SpotControllerImplTest {
                 .andExpect(jsonPath("$").value(500));
     }
 
+    @Test
+    public void countSpots_ReturnsSpotsQuantity() throws Exception {
+        when(service.count()).thenReturn(1L);
+
+        mockMvc.perform(get("/spot/count"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value(1));
+    }
+
 }
