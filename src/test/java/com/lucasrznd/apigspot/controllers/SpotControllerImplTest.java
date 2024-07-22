@@ -1,7 +1,8 @@
 package com.lucasrznd.apigspot.controllers;
 
-import com.lucasrznd.apigspot.controllers.impl.SpotControllerImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lucasrznd.apigspot.controllers.impl.SpotControllerImpl;
+import com.lucasrznd.apigspot.exceptions.ResourceNotFoundException;
 import com.lucasrznd.apigspot.services.SpotService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.lucasrznd.apigspot.common.SpotConstants.*;
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -73,6 +75,25 @@ public class SpotControllerImplTest {
         mockMvc.perform(get("/spot/count"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(1));
+    }
+
+    @Test
+    public void updateSpot_WithExistingId_ReturnsUpdatedSpot() throws Exception {
+        when(service.update(1L, SPOT_DTO)).thenReturn(SPOT_RESPONSE);
+
+        mockMvc.perform(put("/spot/" + 1).content(objectMapper.writeValueAsString(SPOT_DTO)).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value(SPOT_DTO.title()))
+                .andExpect(jsonPath("$.duration").value(SPOT_DTO.duration()));
+    }
+
+    @Test
+    public void updateSpot_WithUnexistingId_ReturnsNotFound() throws Exception {
+        doThrow(ResourceNotFoundException.class).when(service).update(1L, SPOT_DTO);
+
+        mockMvc.perform(put("/spot/" + 1).content(objectMapper.writeValueAsString(SPOT_DTO)).contentType(APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404));
     }
 
 }
