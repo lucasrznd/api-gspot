@@ -11,6 +11,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import static com.lucasrznd.apigspot.common.SpotConstants.*;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.doThrow;
@@ -103,6 +106,34 @@ public class SpotControllerImplTest {
         mockMvc.perform(get("/spot"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
+    }
+
+    @Test
+    public void listSpots_ReturnsLatest5Spots() throws Exception {
+        when(service.findLatestSpots()).thenReturn(SPOT_RESPONSE_LIST);
+
+        mockMvc.perform(get("/spot/latest"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)));
+    }
+
+    @Test
+    public void listSpots_ByDateRangeAnnouncerAndCompany_ReturnsSpots() throws Exception {
+        LocalDate initialDate = LocalDate.of(2024, 7, 1);
+        LocalDate finalDate = LocalDate.of(2024, 7, 30);
+        String companyName = "Molinis Supermercados";
+        String announcerName = "Lucas Rezende";
+
+        when(service.findByDateRangeAnnouncerAndCompany(initialDate, finalDate, companyName, announcerName))
+                .thenReturn(List.of(SPOT_RESPONSE));
+
+        mockMvc.perform(get("/spot/search")
+                        .param("initialDate", String.valueOf(initialDate))
+                        .param("finalDate", String.valueOf(finalDate))
+                        .param("companyName", companyName)
+                        .param("announcerName", announcerName))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)));
     }
 
 }
