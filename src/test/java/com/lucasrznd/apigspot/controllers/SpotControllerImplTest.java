@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -134,6 +135,21 @@ public class SpotControllerImplTest {
                         .param("announcerName", announcerName))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)));
+    }
+
+    @Test
+    public void deleteSpot_WithExistingId_ReturnsNoContent() throws Exception {
+        mockMvc.perform(delete("/spot/" + 1))
+                .andExpect(status().isNoContent())
+                .andExpect(jsonPath("$").doesNotExist());
+    }
+
+    @Test
+    public void deleteSpot_WithUnexistingId_ReturnsNotFound() throws Exception {
+        doThrow(new EmptyResultDataAccessException(1)).when(service).delete(1L);
+
+        mockMvc.perform(delete("/announcer" + 1))
+                .andExpect(status().isNotFound());
     }
 
 }
