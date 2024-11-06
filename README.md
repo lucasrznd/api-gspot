@@ -1,4 +1,4 @@
-<h2 align="center">SPOT Management System API</h2>
+<h2 align="center">API de gerenciamento de SPOTS</h2>
 
 <div align="center">
 
@@ -8,46 +8,45 @@
 </div>
 
 <p align="center">
- <a href="#description">Description</a> • 
- <a href="#features">Features</a> • 
- <a href="#installation">Installation</a> •
- <a href="#contribution">Contribution</a> 
+ <a href="#description">Descrição</a> • 
+ <a href="#features">Funcionalidades</a> • 
+ <a href="#installation">Instalação</a> •
+ <a href="#contribution">Contribuição</a> 
 </p>
 
-<h2 id="description">📙 Description</h2>
+<h2 id="description">📙 Descrição</h2>
 
-The **SPOT Management System API** is a backend service developed in Java with Spring Boot to support the SPOT Management System web application. This API provides endpoints for managing SPOTS, which are short recordings sold by a radio company. The API facilitates the registration and management of announcers, associated companies, and spots, making it easy to control and search for all registered spots.
+A **API de gerenciamento de SPOTS** é um serviço backend desenvolvido em Java com Spring Boot. Esta API fornece endpoints para gerenciar SPOTS, que são gravações curtas vendidas por uma empresa de rádio. A API facilita o registro e gerenciamento de locutores, empresas associadas e spots, tornando fácil controlar e consultar todos os spots registrados.
 
-<h2 id="features">✨ Features</h2>
+<h2 id="features">✨ Funcionalidades</h2>
 
-- **Announcer Registration**: Endpoints to add and manage announcers who make the recordings.
-- **Company Registration**: Endpoints to add and manage companies associated with the recordings.
-- **Spot Registration**: Endpoints to add and manage spots, specifying the title, announcer, and associated company.
+- **Cadastro de Locutores**: Endpoints para adicionar e gerenciar locutores que realizam as gravações.
+- **Cadastro de Empresas**: Endpoints para adicionar e gerenciar empresas associadas às gravações.
+- **Cadastro de Spots**: Endpoints para adicionar e gerenciar spots, especificando o título, locutor e empresa associada.
 
-### Technologies Used
+### Tecnologias Utilizadas
 
-- **Java**: Primary programming language.
-- **Spring Boot**: Framework for building the backend.
-- **Spring Data JPA**: For data persistence and database interaction.
-- **Hibernate**: ORM for mapping Java objects to database tables.
-- **PostgreSQL**: Database used for storing data.
-- **Maven**: For project management and dependency management.
+- **Java**: Linguagem de programação.
+- **Spring Boot**: Framework para construção do backend.
+- **Spring Data JPA**: Para persistência de dados e interação com o banco de dados.
+- **Hibernate**: ORM para mapeamento de objetos Java em tabelas do banco de dados.
+- **PostgreSQL**: Banco de dados utilizado para armazenamento dos dados.
 
-### Prerequisites
+### Pré-requisitos
 
-- Java Development Kit (JDK) 17 or higher
-- Maven for dependency management
-- PostgreSQL database
+- Java Development Kit (JDK) 17 ou superior
+- Maven para gerenciamento de dependências
+- Banco de dados PostgreSQL
 
-<h2 id="installation">🛠️ Installation</h2>
+<h2 id="installation">🛠️ Instalação</h2>
 
-1. Clone the repository to your local environment:
+1. Clone o repositório para o seu ambiente local:
 
 ```
 git clone https://github.com/lucasrznd/api-gspot.git
 ```
 
-2. Configure your database:
+2. Configure o banco de dados no arquivo **application.properties**:
 
 ```
 spring.datasource.url=${POSTGRES_URL}
@@ -56,25 +55,17 @@ spring.datasource.password=${POSTGRES_PASSWORD}
 spring.datasource.driver-class-name=org.postgresql.Driver
 ```
 
-3. Navigate to the project directory:
-
-```
-cd api-gspot
-```
-
-4. Compile the project using Maven:
+4. Compile o projeto utilizando o Maven:
 
 ```
 mvn clean install
 ```
 
-5. Run the generated JAR file in the target folder or deploy the JAR to your application server.
+<h2 id="contribution">🤝 Contribuição</h2>
 
-<h2 id="contribution">🤝 Contribution</h2>
+Contribuições são bem-vindas! Se você tiver sugestões, melhorias ou encontrar bugs, sinta-se à vontade para abrir uma issue ou enviar um pull request.
 
-Contributions are welcome! If you have suggestions, improvements, or find bugs, feel free to open an issue or submit a pull request.
-
-<h2 id="author">👨🏻‍💻 Author</h2>
+<h2 id="author">👨🏻‍💻 Autor</h2>
 
 <table>
   <tbody>
